@@ -22,7 +22,7 @@ public class Plugin : BaseUnityPlugin
             .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#"))
             .Select(line => line.Split('=', (char)2))
             .ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
-    private readonly Font keyboardFont = new(configData["keyboardFontPath"].Trim('"'));
+    private readonly Font keyboardFont = new(configData["KeyboardFontPath"].Trim('"'));
     private readonly Dictionary<string, bool> hasInitialized = new(){
         { "Keyboard", false },
     };
