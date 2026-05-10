@@ -397,6 +397,7 @@
   </Target>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="move &quot;$(SolutionDir)bin\Debug\net472\xsoverlay_font_changer.dll&quot; &quot;D:\Steam\steamapps\common\XSOverlay_Beta\BepInEx\plugins&quot;" />
+    <Exec Command="move &quot;$(SolutionDir)bin\Debug\net48\xsoverlay_font_changer.dll&quot; &quot;D:\Steam\steamapps\common\XSOverlay_Beta\BepInEx\plugins&quot;" />
+    <Exec Command="copy &quot;$(SolutionDir)xsoverlay_font_changer.cfg&quot; &quot;D:\Steam\steamapps\common\XSOverlay_Beta\BepInEx\config&quot;" />
   </Target>
 </Project>
