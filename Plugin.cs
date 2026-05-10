@@ -31,7 +31,7 @@ public class Plugin : BaseUnityPlugin
     {
         // Plugin startup logic
         Logger = base.Logger;
-        Log($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
+        Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
 
     private void Start()
@@ -50,19 +50,12 @@ public class Plugin : BaseUnityPlugin
         if (hasInitialized["Keyboard"]) return;
         hasInitialized["Keyboard"] = true;
 
-        Log("InitializeKeyboard");
+        Logger.LogInfo("InitializeKeyboard");
 
         TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(keyboardFont);
         foreach (TextMeshProUGUI textMesh in overlayManager.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
         {
-            //Log(textMesh.ToString());
             textMesh.font = fontAsset;
         }
-
-    }
-
-    private void Log(string msg)
-    {
-        Logger.LogInfo($"{msg}");
     }
 }

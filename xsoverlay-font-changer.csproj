@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <AssemblyName>xsoverlay_font_changer</AssemblyName>
-    <Product>My first plugin</Product>
+    <Product>XSOverlay Font Changer</Product>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
