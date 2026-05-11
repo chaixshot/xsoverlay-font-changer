@@ -22,7 +22,13 @@ public class Plugin : BaseUnityPlugin
         // Plugin startup logic
         Logger = base.Logger;
 
+        configData = File.ReadAllLines(@".\BepInEx\config\xsoverlay_font_changer.cfg")
+            .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#"))
+            .Select(line => line.Split('=', (char)2))
+            .ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
+
         harmony.PatchAll(typeof(Patches.PatchKeyboardFont));
+        Patches.PatchWristFont.PatchAsync();
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
@@ -30,10 +36,6 @@ public class Plugin : BaseUnityPlugin
     private void Start()
     {
         overlayManager = Overlay_Manager.Instance;
-        configData = File.ReadAllLines(@".\BepInEx\config\xsoverlay_font_changer.cfg")
-            .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#"))
-            .Select(line => line.Split('=', (char)2))
-            .ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is started!");
     }
