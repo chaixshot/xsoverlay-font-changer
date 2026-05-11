@@ -15,14 +15,9 @@ public class Plugin : BaseUnityPlugin
 {
     internal static new ManualLogSource Logger;
 
+    private static Overlay_Manager overlayManager;
 
-    Overlay_Manager overlayManager;
-
-    private static readonly Dictionary<string, string> configData = File.ReadAllLines(@".\BepInEx\config\xsoverlay_font_changer.cfg")
-            .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#"))
-            .Select(line => line.Split('=', (char)2))
-            .ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
-    private readonly Font keyboardFont = new(configData["KeyboardFontPath"].Trim('"'));
+    private static Dictionary<string, string> configData;
     private readonly Dictionary<string, bool> hasInitialized = new(){
         { "Keyboard", false },
     };
@@ -31,6 +26,12 @@ public class Plugin : BaseUnityPlugin
     {
         // Plugin startup logic
         Logger = base.Logger;
+
+        configData = File.ReadAllLines(@".\BepInEx\config\xsoverlay_font_changer.cfg")
+            .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#"))
+            .Select(line => line.Split('=', (char)2))
+            .ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
+
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
 
@@ -51,8 +52,9 @@ public class Plugin : BaseUnityPlugin
         hasInitialized["Keyboard"] = true;
 
         Logger.LogInfo("InitializeKeyboard");
+        Font font = new((configData.ContainsKey("KeyboardFontPath") ? configData["KeyboardFontPath"].Trim('"') : ""));
+        TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
 
-        TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(keyboardFont);
         foreach (TextMeshProUGUI textMesh in overlayManager.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
         {
             textMesh.font = fontAsset;
