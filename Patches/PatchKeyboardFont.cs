@@ -44,8 +44,8 @@ namespace xsoverlay_font_changer.Patches
                     textMesh.font = fontAsset;
                 }
 
-                Plugin.Logger.LogInfo($"{KeyboardFontPath}");
                 isPatched = true;
+                Plugin.Logger.LogInfo($"Keyboard font patched \"{KeyboardFontPath}\"");
             }
         }
     }
