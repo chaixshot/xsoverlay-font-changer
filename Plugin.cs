@@ -30,6 +30,7 @@ public class Plugin : BaseUnityPlugin
         harmony.PatchAll(typeof(Patches.PatchKeyboardFont));
         Patches.PatchWristFont.Patch();
         Patches.PatchSettingsFont.Patch();
+        Patches.PatchNotificationFont.Patch();
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
