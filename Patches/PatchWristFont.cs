@@ -14,7 +14,7 @@ namespace xsoverlay_font_changer.Patches
                 return;
             }
 
-            Utils.ApplyHtmlStyle("Wrist", WristFontPath);
+            Utils.ApplyHtmlStyle("Wrist", WristFontPath, ".clock-container, .media-widget-info-container, .performance-bar-text-name, .performance-bar-text-percentage");
         }
     }
 }

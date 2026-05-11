@@ -14,7 +14,7 @@ namespace xsoverlay_font_changer.Patches
                 return;
             }
 
-            Utils.ApplyHtmlStyle("Settings", SettingFontPath);
+            Utils.ApplyHtmlStyle("Settings", SettingFontPath, ".side-bar-button-text, .page-container");
         }
     }
 }
