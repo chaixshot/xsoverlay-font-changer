@@ -15,13 +15,13 @@ namespace xsoverlay_font_changer
             FileInfo fontFile = Copy(fontPath);
             string htmlFile = fontFile.ToString().Replace(@"\XSOverlay_Data\StreamingAssets\Plugins\Applications\_UI\Default", "").Replace("\\", "/");
             string fontCss = string.Format(@"
-    @font-face {{
-        font-family: 'CustomFont';
-        src: url('{0}') format('{1}');
-    }}
-    {2} {{
-        font-family: 'CustomFont';
-    }}", htmlFile, GetFontType(fontPath), cssClass);
+        @font-face {{
+            font-family: 'CustomFont';
+            src: url('{0}') format('{1}');
+        }}
+        {2} {{
+            font-family: 'CustomFont';
+        }}", htmlFile, GetFontType(fontPath), cssClass);
 
             if (html.Contains("CustomFont"))
             {

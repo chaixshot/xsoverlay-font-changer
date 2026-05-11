@@ -12,6 +12,7 @@ namespace xsoverlay_font_changer;
 public class Plugin : BaseUnityPlugin
 {
     internal static new ManualLogSource Logger;
+    public static Plugin Instance;
 
     private static readonly Harmony harmony = new(MyPluginInfo.PLUGIN_GUID);
     internal static Overlay_Manager overlayManager;
@@ -40,6 +41,7 @@ public class Plugin : BaseUnityPlugin
 
     private void Start()
     {
+        Instance = this;
         overlayManager = Overlay_Manager.Instance;
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is started!");
