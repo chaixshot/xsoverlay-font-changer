@@ -4,7 +4,7 @@ namespace xsoverlay_font_changer.Patches
 {
     internal class PatchSettingsFont
     {
-        public static void Patch()
+        public static void PatchCSS()
         {
             Plugin.configData.TryGetValue("SettingFontPath", out string SettingFontPath);
 
@@ -14,7 +14,7 @@ namespace xsoverlay_font_changer.Patches
                 return;
             }
 
-            Utils.ApplyHtmlStyle("Settings", SettingFontPath, ".side-bar-button-text, .page-container");
+            Utils.ApplyHtmlStyle("Settings", SettingFontPath, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre");
         }
     }
 }

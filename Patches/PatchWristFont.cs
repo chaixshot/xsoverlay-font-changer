@@ -4,7 +4,7 @@ namespace xsoverlay_font_changer.Patches
 {
     internal class PatchWristFont
     {
-        public static void Patch()
+        public static void PatchCSS()
         {
             Plugin.configData.TryGetValue("WristFontPath", out string WristFontPath);
 
