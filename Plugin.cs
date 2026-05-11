@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using HarmonyLib;
 using System.Collections.Generic;
@@ -34,7 +35,13 @@ public class Plugin : BaseUnityPlugin
         Patches.PatchNotificationFont.PatchCSS();
         Patches.PatchWindowSettingsFont.PatchCSS();
         Patches.PatchTooltipFont.PatchCSS();
-        Patches.PatchKeyboardOSCFont.PatchCSS();
+
+        //?? Patch Keyboard OSC custom settings font - https://github.com/nyakowint/xsoverlay-keyboard-osc
+        if (Chainloader.PluginInfos.ContainsKey("nwnt.keyboardosc"))
+        {
+            harmony.PatchAll(typeof(Patches.PatchKeyboardOSCFont));
+            Patches.PatchKeyboardOSCFont.PatchCSS();
+        }
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }

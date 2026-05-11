@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using TMPro;
 using UnityEngine;
-using WebSocketSharp;
 using XSOverlay;
 
 namespace xsoverlay_font_changer.Patches
@@ -28,24 +27,19 @@ namespace xsoverlay_font_changer.Patches
 
             if (!keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
             {
-                Plugin.configData.TryGetValue("KeyboardFontPath", out string KeyboardFontPath);
-
-                if (KeyboardFontPath.IsNullOrEmpty())
+                if (Plugin.configData.TryGetValue("KeyboardFontPath", out string KeyboardFontPath))
                 {
+                    Font font = new(KeyboardFontPath.Trim('"'));
+                    TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
+
+                    foreach (TextMeshProUGUI textMesh in Plugin.overlayManager.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
+                        textMesh.font = fontAsset;
+
+                    isPatched = true;
+                    Plugin.Logger.LogInfo($"Keyboard font patched \"{KeyboardFontPath}\"");
+                }
+                else
                     Plugin.Logger.LogError($"Config KeyboardFontPath is missing. Fallback to default");
-                    return;
-                }
-
-                Font font = new(KeyboardFontPath.Trim('"'));
-                TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
-
-                foreach (TextMeshProUGUI textMesh in Plugin.overlayManager.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
-                {
-                    textMesh.font = fontAsset;
-                }
-
-                isPatched = true;
-                Plugin.Logger.LogInfo($"Keyboard font patched \"{KeyboardFontPath}\"");
             }
         }
     }
