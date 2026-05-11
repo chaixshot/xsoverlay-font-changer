@@ -8,19 +8,20 @@ namespace xsoverlay_font_changer
 
         public static void ApplyHtmlStyle(string htmlName, string fontPath, string cssClass)
         {
+            fontPath = fontPath.Trim('"');
             string htmlPath = $".\\XSOverlay_Data\\StreamingAssets\\Plugins\\Applications\\_UI\\Default\\{htmlName}.html";
             string html = File.ReadAllText(htmlPath);
 
-            FileInfo fontFile = Copy(fontPath.Trim('"'));
+            FileInfo fontFile = Copy(fontPath);
             string htmlFile = fontFile.ToString().Replace(@"\XSOverlay_Data\StreamingAssets\Plugins\Applications\_UI\Default", "").Replace("\\", "/");
             string fontCss = string.Format(@"
     @font-face {{
         font-family: 'CustomFont';
-        src: url('{0}') format('truetype');
+        src: url('{0}') format('{1}');
     }}
-    {1} {{
+    {2} {{
         font-family: 'CustomFont';
-    }}", htmlFile, cssClass);
+    }}", htmlFile, GetFontType(fontPath), cssClass);
 
             if (html.Contains("CustomFont"))
             {
@@ -47,6 +48,18 @@ namespace xsoverlay_font_changer
                 File.Copy(fontPath, destFile);
 
             return new(destFile);
+        }
+
+        private static string GetFontType(string fontPath)
+        {
+            return Path.GetExtension(fontPath) switch
+            {
+                ".ttf" => "TrueType",
+                ".otf" => "OpenType",
+                ".woff" => "Web Open Font Format",
+                ".woff2" => "Web Open Font Format 2",
+                _ => "TrueType",
+            };
         }
     }
 }
