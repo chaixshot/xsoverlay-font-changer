@@ -28,7 +28,8 @@ public class Plugin : BaseUnityPlugin
             .ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
 
         harmony.PatchAll(typeof(Patches.PatchKeyboardFont));
-        Patches.PatchWristFont.PatchAsync();
+        Patches.PatchWristFont.Patch();
+        Patches.PatchSettingsFont.Patch();
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
