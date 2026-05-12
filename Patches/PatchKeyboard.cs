@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using XSOverlay;
@@ -27,14 +28,19 @@ namespace xsoverlay_font_changer.Patches
 
             if (!keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
             {
-                Font font = new(XConfig.KeyboardPath.Value);
-                TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
+                if (File.Exists(XConfig.KeyboardPath.Value))
+                {
+                    Font font = new(XConfig.KeyboardPath.Value);
+                    TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
 
-                foreach (TextMeshProUGUI textMesh in __instance.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
-                    textMesh.font = fontAsset;
+                    foreach (TextMeshProUGUI textMesh in __instance.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
+                        textMesh.font = fontAsset;
 
-                isPatched = true;
-                Plugin.Logger.LogInfo($"Keyboard font patched \"{XConfig.KeyboardPath.Value}\"");
+                    isPatched = true;
+                    Plugin.Logger.LogInfo($"Keyboard font patched \"{XConfig.KeyboardPath.Value}\"");
+                }
+                else
+                    Plugin.Logger.LogError($"Keyboard - \"{XConfig.KeyboardPath.Value}\" does not exist.");
             }
         }
     }

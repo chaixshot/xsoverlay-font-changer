@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Bootstrap;
 using HarmonyLib;
+using System.IO;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
@@ -31,39 +32,44 @@ namespace xsoverlay_font_changer.Patches
 
             if (!keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
             {
-                Font font = new(XConfig.KeyboardPath.Value);
-                TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
-
-                if (Chainloader.PluginInfos.TryGetValue("nwnt.keyboardosc", out PluginInfo pluginInfo))
+                if (File.Exists(XConfig.KeyboardPath.Value))
                 {
-                    object instance = pluginInfo.Instance;
-                    if (instance == null) return;
+                    Font font = new(XConfig.KeyboardPath.Value);
+                    TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
 
-                    // Use BindingFlags.Public since the field is public
-                    // Include BindingFlags.Instance because it belongs to the plugin instance
-                    FieldInfo field = instance.GetType().GetField("oscBarCanvas", BindingFlags.Public | BindingFlags.Instance);
-
-                    if (field != null)
+                    if (Chainloader.PluginInfos.TryGetValue("nwnt.keyboardosc", out PluginInfo pluginInfo))
                     {
-                        // Get the value and cast it to GameObject
-                        GameObject oscBarCanvas = field.GetValue(instance) as GameObject;
+                        object instance = pluginInfo.Instance;
+                        if (instance == null) return;
 
-                        if (oscBarCanvas != null)
+                        // Use BindingFlags.Public since the field is public
+                        // Include BindingFlags.Instance because it belongs to the plugin instance
+                        FieldInfo field = instance.GetType().GetField("oscBarCanvas", BindingFlags.Public | BindingFlags.Instance);
+
+                        if (field != null)
                         {
-                            Plugin.Logger.LogInfo("Successfully found oscBarCanvas!");
+                            // Get the value and cast it to GameObject
+                            GameObject oscBarCanvas = field.GetValue(instance) as GameObject;
 
-                            foreach (TextMeshProUGUI textMesh in oscBarCanvas.GetComponentsInChildren<TextMeshProUGUI>(true))
-                                textMesh.font = fontAsset;
+                            if (oscBarCanvas != null)
+                            {
+                                Plugin.Logger.LogInfo("Successfully found oscBarCanvas!");
+
+                                foreach (TextMeshProUGUI textMesh in oscBarCanvas.GetComponentsInChildren<TextMeshProUGUI>(true))
+                                    textMesh.font = fontAsset;
+                            }
+                            else
+                                Plugin.Logger.LogWarning("oscBarCanvas field found, but it is currently null.");
                         }
                         else
-                            Plugin.Logger.LogWarning("oscBarCanvas field found, but it is currently null.");
+                            Plugin.Logger.LogError("Could not find a field named 'oscBarCanvas' in the target mod.");
                     }
-                    else
-                        Plugin.Logger.LogError("Could not find a field named 'oscBarCanvas' in the target mod.");
-                }
 
-                isPatched = true;
-                Plugin.Logger.LogInfo($"Keyboard font patched \"{XConfig.KeyboardPath.Value}\"");
+                    isPatched = true;
+                    Plugin.Logger.LogInfo($"Keyboard font patched \"{XConfig.KeyboardPath.Value}\"");
+                }
+                else
+                    Plugin.Logger.LogError($"Keyboard - \"{XConfig.KeyboardPath.Value}\" does not exist.");
             }
         }
     }

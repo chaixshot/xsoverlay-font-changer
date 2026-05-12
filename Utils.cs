@@ -11,9 +11,14 @@ namespace xsoverlay_font_changer
 
         public static void ApplyHtmlStyle(OverlayWebView wv, string fontPath, string cssClass)
         {
-            FileInfo fontFile = CopyFont(fontPath.Trim('"'));
-            string htmlFile = fontFile.ToString().Replace(@"\XSOverlay_Data\StreamingAssets\Plugins\Applications\_UI\Default", "").Replace("\\", "/");
-            string jsCode = string.Format(@"
+            FileInfo fontFile = new(fontPath);
+
+            if (fontFile.Exists)
+            {
+                fontFile = CopyFont(fontPath.Trim('"'));
+
+                string htmlFile = fontFile.ToString().Replace(@"\XSOverlay_Data\StreamingAssets\Plugins\Applications\_UI\Default", "").Replace("\\", "/");
+                string jsCode = string.Format(@"
     (function() {{
         if (!document.head) return 'ERROR: No Head';
 
@@ -32,19 +37,27 @@ namespace xsoverlay_font_changer
         return 'SUCCESS: Injected';
     }})();", htmlFile, GetFontType(htmlFile), cssClass);
 
-            // Lisen for WebView loaded
-            wv._webView.WebView.LoadProgressChanged += (sender, args) =>
-            {
-                if (args.Type == ProgressChangeType.Finished)
+                // Lisen for WebView loaded
+                wv._webView.WebView.LoadProgressChanged += (sender, args) =>
                 {
-                    Plugin.Logger.LogInfo($"Page loaded! Injecting {wv._webView.WebView.Url} CSS...");
-
-                    wv._webView.WebView.ExecuteJavaScript(jsCode, (result) =>
+                    if (args.Type == ProgressChangeType.Finished)
                     {
-                        Plugin.Logger.LogInfo($"[{Path.GetFileName(wv._webView.WebView.Url)}] {result}");
-                    });
-                }
-            };
+                        Plugin.Logger.LogInfo($"Page loaded! Injecting {wv._webView.WebView.Url} CSS...");
+
+                        wv._webView.WebView.ExecuteJavaScript(jsCode, (result) =>
+                        {
+                            if (result.Contains("ERROR"))
+                                Plugin.Logger.LogError($"[{Path.GetFileName(wv._webView.WebView.Url)}] {result}");
+                            else
+                                Plugin.Logger.LogInfo($"[{Path.GetFileName(wv._webView.WebView.Url)}] {result}");
+                        });
+                    }
+                };
+            }
+            else
+            {
+                Plugin.Logger.LogError($"{wv._overlay.overlayName} - \"{fontFile}\" does not exist.");
+            }
         }
 
         private static FileInfo CopyFont(string fontPath)
