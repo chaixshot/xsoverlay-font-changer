@@ -30,11 +30,11 @@ namespace xsoverlay_font_changer.Patches
 
         [HarmonyPatch(nameof(Overlay_Manager.EnableKeyboard))]
         [HarmonyPostfix]
-        public static void PatchGameObject()
+        public static void PatchGameObject(Overlay_Manager __instance)
         {
             if (isPatched) return;
 
-            KeyboardGlobalManager keyboardManager = Plugin.overlayManager.Keyboard_Overlay.gameObject.GetComponentInChildren<KeyboardGlobalManager>(true);
+            KeyboardGlobalManager keyboardManager = __instance.Keyboard_Overlay.gameObject.GetComponentInChildren<KeyboardGlobalManager>(true);
 
             if (!keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
             {

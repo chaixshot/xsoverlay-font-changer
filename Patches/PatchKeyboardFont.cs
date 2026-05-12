@@ -19,11 +19,11 @@ namespace xsoverlay_font_changer.Patches
 
         [HarmonyPatch(nameof(Overlay_Manager.EnableKeyboard))]
         [HarmonyPostfix]
-        public static void Patch()
+        public static void Patch(Overlay_Manager __instance)
         {
             if (isPatched) return;
 
-            KeyboardGlobalManager keyboardManager = Plugin.overlayManager.Keyboard_Overlay.gameObject.GetComponentInChildren<KeyboardGlobalManager>(true);
+            KeyboardGlobalManager keyboardManager = __instance.Keyboard_Overlay.gameObject.GetComponentInChildren<KeyboardGlobalManager>(true);
 
             if (!keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
             {
@@ -32,7 +32,7 @@ namespace xsoverlay_font_changer.Patches
                     Font font = new(KeyboardFontPath.Trim('"'));
                     TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
 
-                    foreach (TextMeshProUGUI textMesh in Plugin.overlayManager.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
+                    foreach (TextMeshProUGUI textMesh in __instance.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
                         textMesh.font = fontAsset;
 
                     isPatched = true;

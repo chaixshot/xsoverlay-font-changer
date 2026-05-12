@@ -5,7 +5,6 @@ using HarmonyLib;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using XSOverlay;
 
 namespace xsoverlay_font_changer;
 
@@ -16,7 +15,6 @@ public class Plugin : BaseUnityPlugin
     public static Plugin Instance;
 
     private static readonly Harmony harmony = new(MyPluginInfo.PLUGIN_GUID);
-    internal static Overlay_Manager overlayManager;
     internal static Dictionary<string, string> configData;
 
     private void Awake()
@@ -49,7 +47,6 @@ public class Plugin : BaseUnityPlugin
     private void Start()
     {
         Instance = this;
-        overlayManager = Overlay_Manager.Instance;
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is started!");
     }
