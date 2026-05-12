@@ -6,7 +6,7 @@ using XSOverlay;
 namespace xsoverlay_font_changer.Patches
 {
     [HarmonyPatch(typeof(Overlay_Manager))]
-    internal class PatchKeyboardFont
+    internal class PatchKeyboard
     {
         private static bool isPatched = false;
 
@@ -19,7 +19,7 @@ namespace xsoverlay_font_changer.Patches
 
         [HarmonyPatch(nameof(Overlay_Manager.EnableKeyboard))]
         [HarmonyPostfix]
-        public static void Patch(Overlay_Manager __instance)
+        public static void PatchFont(Overlay_Manager __instance)
         {
             if (isPatched) return;
 

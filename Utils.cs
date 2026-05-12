@@ -1,49 +1,59 @@
-﻿using BepInEx.Configuration;
+﻿using BepInEx.Bootstrap;
+using BepInEx.Configuration;
 using System.IO;
-using System.Text.RegularExpressions;
+using Vuplex.WebView;
+using XSOverlay.WebApp;
 
 namespace xsoverlay_font_changer
 {
     internal class Utils
     {
 
-        public static void ApplyHtmlStyle(string htmlName, string fontPath, string cssClass)
+        public static void ApplyHtmlStyle(OverlayWebView wv, string fontPath, string cssClass)
         {
-            fontPath = fontPath.Trim('"');
-            string htmlPath = $".\\XSOverlay_Data\\StreamingAssets\\Plugins\\Applications\\_UI\\Default\\{htmlName}.html";
-            string html = File.ReadAllText(htmlPath);
-
-            FileInfo fontFile = Copy(fontPath);
+            FileInfo fontFile = CopyFont(fontPath.Trim('"'));
             string htmlFile = fontFile.ToString().Replace(@"\XSOverlay_Data\StreamingAssets\Plugins\Applications\_UI\Default", "").Replace("\\", "/");
-            string fontCss = string.Format(@"
-        @font-face {{
-            font-family: 'CustomFont';
-            src: url('{0}') format('{1}');
-        }}
-        {2} {{
-            font-family: 'CustomFont';
-        }}", htmlFile, GetFontType(fontPath), cssClass);
+            string jsCode = string.Format(@"
+    (function() {{
+        if (!document.head) return 'ERROR: No Head';
 
-            if (html.Contains("CustomFont"))
-            {
-                // If font exists, update the path inside url(...)
-                html = Regex.Replace(html, @"url\('.*?\.ttf'\)", $"url('{htmlFile}')");
-            }
-            else
-            {
-                // If font doesn't exist, inject into <style> or create one
-                if (html.Contains("<style>"))
-                    html = html.Replace("<style>", $"<style>\n{fontCss}");
-                else
-                    html = html.Replace("</head>", $"\n\t<style>\n{fontCss}\n\t</style>\n</head>");
-            }
+        var style = document.createElement('style');
+        style.innerHTML = `
+            @font-face {{
+                font-family: 'CustomFont';
+                src: url('{0}') format('{1}'); 
+            }}
+            {2} {{
+                font-family: 'CustomFont' !important;
+            }}
+        `;
+        document.head.appendChild(style);
 
-            File.WriteAllText(htmlPath, html);
+        return 'SUCCESS: Injected';
+    }})();", htmlFile, GetFontType(htmlFile), cssClass);
+
+            // Lisen for WebView loaded
+            wv._webView.WebView.LoadProgressChanged += (sender, args) =>
+            {
+                if (args.Type == ProgressChangeType.Finished)
+                {
+                    Plugin.Logger.LogInfo($"Page loaded! Injecting {wv._webView.WebView.Url} CSS...");
+
+                    wv._webView.WebView.ExecuteJavaScript(jsCode, (result) =>
+                    {
+                        Plugin.Logger.LogInfo($"[{Path.GetFileName(wv._webView.WebView.Url)}] {result}");
+                    });
+                }
+            };
         }
 
-        private static FileInfo Copy(string fontPath)
+        private static FileInfo CopyFont(string fontPath)
         {
-            string destFile = $".\\XSOverlay_Data\\StreamingAssets\\Plugins\\Applications\\_UI\\Default\\_Shared\\fonts\\custom\\{Path.GetFileName(fontPath)}";
+            string destDir = $".\\XSOverlay_Data\\StreamingAssets\\Plugins\\Applications\\_UI\\Default\\_Shared\\fonts\\custom";
+            string destFile = $"{destDir}\\{Path.GetFileName(fontPath)}";
+
+            if (!Directory.Exists(destDir))
+                Directory.CreateDirectory(destDir);
 
             if (!File.Exists(destFile))
                 File.Copy(fontPath, destFile);
@@ -61,6 +71,11 @@ namespace xsoverlay_font_changer
                 ".woff2" => "Web Open Font Format 2",
                 _ => "TrueType",
             };
+        }
+
+        public static bool IsKeyboardOscInstalled()
+        {
+            return Chainloader.PluginInfos.ContainsKey("nwnt.keyboardosc");
         }
     }
 

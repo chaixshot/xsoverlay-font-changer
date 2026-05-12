@@ -1,5 +1,4 @@
 ﻿using BepInEx;
-using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using HarmonyLib;
 
@@ -22,38 +21,36 @@ public class Plugin : BaseUnityPlugin
         //** Keyboard
         if (XConfig.KeyboardEnable.Value)
         {
-            harmony.PatchAll(typeof(Patches.PatchKeyboardFont));
+            harmony.PatchAll(typeof(Patches.PatchKeyboard));
 
-            if (Chainloader.PluginInfos.ContainsKey("nwnt.keyboardosc"))
-            {
-                harmony.PatchAll(typeof(Patches.PatchKeyboardOSCFont));
-            }
+            if (Utils.IsKeyboardOscInstalled())
+                harmony.PatchAll(typeof(Patches.PatchKeyboardOscBar));
         }
-
-        //** Notification
-        if (XConfig.NotificationEnable.Value)
-            Patches.PatchNotificationFont.PatchCSS();
 
         //** Settings
         if (XConfig.SettingsEnable.Value)
         {
-            if (Chainloader.PluginInfos.ContainsKey("nwnt.keyboardosc"))
-                Patches.PatchKeyboardOSCFont.PatchSettingCSS();
+            if (Utils.IsKeyboardOscInstalled())
+                harmony.PatchAll(typeof(Patches.PatchKeyboardOscSettings));
             else
-                Patches.PatchSettingsFont.PatchCSS();
+                harmony.PatchAll(typeof(Patches.PatchSettings));
         }
+
+        //** Notification
+        if (XConfig.NotificationEnable.Value)
+            harmony.PatchAll(typeof(Patches.PatchNotificationFont));
 
         //** Tooltip
         if (XConfig.TooltipEnable.Value)
-            Patches.PatchTooltipFont.PatchCSS();
+            harmony.PatchAll(typeof(Patches.PatchTooltip));
 
         //** Window Overlay Settings
         if (XConfig.WindowSettingsEnable.Value)
-            Patches.PatchWindowSettingsFont.PatchCSS();
+            harmony.PatchAll(typeof(Patches.PatchWindowSettings));
 
         //** Wrist
         if (XConfig.WristEnable.Value)
-            Patches.PatchWristFont.PatchCSS();
+            harmony.PatchAll(typeof(Patches.PatchWrist));
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }

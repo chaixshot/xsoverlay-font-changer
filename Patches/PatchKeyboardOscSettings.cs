@@ -1,0 +1,39 @@
+﻿using HarmonyLib;
+using System.IO;
+using XSOverlay;
+using XSOverlay.WebApp;
+
+namespace xsoverlay_font_changer.Patches
+{
+    [HarmonyPatch(typeof(Overlay_Manager))]
+    internal class PatchKeyboardOscSettings
+    {
+        [HarmonyPatch("Awake")]
+        [HarmonyPostfix]
+        public static void Awake(Overlay_Manager __instance)
+        {
+            Plugin.Logger.LogInfo($"Keyboard OSC Settings font patcher is loaded");
+        }
+
+        [HarmonyPatch("OnRegisterWebviewOverlay")]
+        [HarmonyPrefix]
+        public static bool PatchCSS(ref OverlayWebView wv)
+        {
+            OverlayWebView _wv = wv;
+
+            if (Path.GetFileName(_wv.LoadedURL) != "Settings.html")
+                return true;
+
+            _wv._webView.WebView.UrlChanged += (sender, args) =>
+            {
+                if (Path.GetFileName(_wv._webView.WebView.Url) == "SettingsKO.html")
+                {
+                    Plugin.Logger.LogInfo("KeyboardOSC Replaced settings page url!");
+                    Utils.ApplyHtmlStyle(_wv, XConfig.SettingsPath.Value, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre");
+                }
+            };
+
+            return true;
+        }
+    }
+}

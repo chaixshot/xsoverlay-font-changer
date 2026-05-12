@@ -10,27 +10,20 @@ using XSOverlay;
 namespace xsoverlay_font_changer.Patches
 {
     [HarmonyPatch(typeof(Overlay_Manager))]
-    internal class PatchKeyboardOSCFont
+    internal class PatchKeyboardOscBar
     {
         private static bool isPatched = false;
-
-        public static void PatchSettingCSS()
-        {
-            Plugin.Logger.LogInfo($"Keyboard OSC Custom Settings font patcher is loaded");
-
-            Utils.ApplyHtmlStyle("SettingsKO", XConfig.SettingsPath.Value, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre");
-        }
 
         [HarmonyPatch("Awake")]
         [HarmonyPostfix]
         public static void Awake()
         {
-            Plugin.Logger.LogInfo($"Keyboard OSC font patcher is loaded");
+            Plugin.Logger.LogInfo($"Keyboard OSC Bar font patcher is loaded");
         }
 
         [HarmonyPatch(nameof(Overlay_Manager.EnableKeyboard))]
         [HarmonyPostfix]
-        public static void PatchGameObject(Overlay_Manager __instance)
+        public static void PatchFont(Overlay_Manager __instance)
         {
             if (isPatched) return;
 
