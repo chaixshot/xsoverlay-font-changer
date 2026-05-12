@@ -1,20 +1,12 @@
-﻿using WebSocketSharp;
-
-namespace xsoverlay_font_changer.Patches
+﻿namespace xsoverlay_font_changer.Patches
 {
     internal class PatchWindowSettingsFont
     {
         public static void PatchCSS()
         {
-            Plugin.configData.TryGetValue("WindowSettingsFontPath", out string WindowSettingsFontPath);
+            Plugin.Logger.LogInfo($"Window Overlay Setting font patcher is loaded");
 
-            if (WindowSettingsFontPath.IsNullOrEmpty())
-            {
-                Plugin.Logger.LogError($"Config WindowSettingsFontPath is missing. Fallback to default");
-                return;
-            }
-
-            Utils.ApplyHtmlStyle("WindowSettings", WindowSettingsFontPath, ".whitespace-pre");
+            Utils.ApplyHtmlStyle("WindowSettings", XConfig.WindowSettingsPath.Value, ".whitespace-pre");
         }
     }
 }

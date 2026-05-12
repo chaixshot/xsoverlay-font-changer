@@ -2,9 +2,6 @@
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace xsoverlay_font_changer;
 
@@ -15,31 +12,48 @@ public class Plugin : BaseUnityPlugin
     public static Plugin Instance;
 
     private static readonly Harmony harmony = new(MyPluginInfo.PLUGIN_GUID);
-    internal static Dictionary<string, string> configData;
 
     private void Awake()
     {
         // Plugin startup logic
         Logger = base.Logger;
+        XConfig.AllConfig(Config);
 
-        configData = File.ReadAllLines(@".\BepInEx\config\xsoverlay_font_changer.cfg")
-            .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#"))
-            .Select(line => line.Split('=', (char)2))
-            .ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
-
-        harmony.PatchAll(typeof(Patches.PatchKeyboardFont));
-        Patches.PatchWristFont.PatchCSS();
-        Patches.PatchSettingsFont.PatchCSS();
-        Patches.PatchNotificationFont.PatchCSS();
-        Patches.PatchWindowSettingsFont.PatchCSS();
-        Patches.PatchTooltipFont.PatchCSS();
-
-        //?? Patch Keyboard OSC custom settings font - https://github.com/nyakowint/xsoverlay-keyboard-osc
-        if (Chainloader.PluginInfos.ContainsKey("nwnt.keyboardosc"))
+        //** Keyboard
+        if (XConfig.KeyboardEnable.Value)
         {
-            harmony.PatchAll(typeof(Patches.PatchKeyboardOSCFont));
-            Patches.PatchKeyboardOSCFont.PatchCSS();
+            harmony.PatchAll(typeof(Patches.PatchKeyboardFont));
+
+            if (Chainloader.PluginInfos.ContainsKey("nwnt.keyboardosc"))
+            {
+                harmony.PatchAll(typeof(Patches.PatchKeyboardOSCFont));
+            }
         }
+
+        //** Notification
+        if (XConfig.NotificationEnable.Value)
+            Patches.PatchNotificationFont.PatchCSS();
+
+        //** Settings
+        if (XConfig.SettingsEnable.Value)
+        {
+            if (Chainloader.PluginInfos.ContainsKey("nwnt.keyboardosc"))
+                Patches.PatchKeyboardOSCFont.PatchSettingCSS();
+            else
+                Patches.PatchSettingsFont.PatchCSS();
+        }
+
+        //** Tooltip
+        if (XConfig.TooltipEnable.Value)
+            Patches.PatchTooltipFont.PatchCSS();
+
+        //** Window Overlay Settings
+        if (XConfig.WindowSettingsEnable.Value)
+            Patches.PatchWindowSettingsFont.PatchCSS();
+
+        //** Wrist
+        if (XConfig.WristEnable.Value)
+            Patches.PatchWristFont.PatchCSS();
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }

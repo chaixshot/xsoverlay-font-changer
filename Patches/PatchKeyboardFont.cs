@@ -14,7 +14,7 @@ namespace xsoverlay_font_changer.Patches
         [HarmonyPostfix]
         public static void Awake()
         {
-            Plugin.Logger.LogInfo($"Keyboard font patcher loaded");
+            Plugin.Logger.LogInfo($"Keyboard font patcher is loaded");
         }
 
         [HarmonyPatch(nameof(Overlay_Manager.EnableKeyboard))]
@@ -27,19 +27,14 @@ namespace xsoverlay_font_changer.Patches
 
             if (!keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
             {
-                if (Plugin.configData.TryGetValue("KeyboardFontPath", out string KeyboardFontPath))
-                {
-                    Font font = new(KeyboardFontPath.Trim('"'));
-                    TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
+                Font font = new(XConfig.KeyboardPath.Value);
+                TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
 
-                    foreach (TextMeshProUGUI textMesh in __instance.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
-                        textMesh.font = fontAsset;
+                foreach (TextMeshProUGUI textMesh in __instance.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
+                    textMesh.font = fontAsset;
 
-                    isPatched = true;
-                    Plugin.Logger.LogInfo($"Keyboard font patched \"{KeyboardFontPath}\"");
-                }
-                else
-                    Plugin.Logger.LogError($"Config KeyboardFontPath is missing. Fallback to default");
+                isPatched = true;
+                Plugin.Logger.LogInfo($"Keyboard font patched \"{XConfig.KeyboardPath.Value}\"");
             }
         }
     }

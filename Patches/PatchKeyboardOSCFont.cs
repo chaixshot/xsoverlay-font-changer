@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using XSOverlay;
 
+//?? Patch Keyboard OSC custom settings font - https://github.com/nyakowint/xsoverlay-keyboard-osc
 namespace xsoverlay_font_changer.Patches
 {
     [HarmonyPatch(typeof(Overlay_Manager))]
@@ -13,19 +14,18 @@ namespace xsoverlay_font_changer.Patches
     {
         private static bool isPatched = false;
 
-        public static void PatchCSS()
+        public static void PatchSettingCSS()
         {
-            if (Plugin.configData.TryGetValue("KeyboardOSCFontPath", out string KeyboardOSCFontPath))
-            {
-                Utils.ApplyHtmlStyle("SettingsKO", KeyboardOSCFontPath, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre");
-            }
+            Plugin.Logger.LogInfo($"Keyboard OSC Custom Settings font patcher is loaded");
+
+            Utils.ApplyHtmlStyle("SettingsKO", XConfig.SettingsPath.Value, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre");
         }
 
         [HarmonyPatch("Awake")]
         [HarmonyPostfix]
         public static void Awake()
         {
-            Plugin.Logger.LogInfo($"Keyboard OSC font patcher loaded");
+            Plugin.Logger.LogInfo($"Keyboard OSC font patcher is loaded");
         }
 
         [HarmonyPatch(nameof(Overlay_Manager.EnableKeyboard))]
@@ -38,44 +38,39 @@ namespace xsoverlay_font_changer.Patches
 
             if (!keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
             {
-                if (Plugin.configData.TryGetValue("KeyboardFontPath", out string KeyboardFontPath))
+                Font font = new(XConfig.KeyboardPath.Value);
+                TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
+
+                if (Chainloader.PluginInfos.TryGetValue("nwnt.keyboardosc", out PluginInfo pluginInfo))
                 {
-                    Font font = new(KeyboardFontPath.Trim('"'));
-                    TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
+                    object instance = pluginInfo.Instance;
+                    if (instance == null) return;
 
-                    if (Chainloader.PluginInfos.TryGetValue("nwnt.keyboardosc", out PluginInfo pluginInfo))
+                    // Use BindingFlags.Public since the field is public
+                    // Include BindingFlags.Instance because it belongs to the plugin instance
+                    FieldInfo field = instance.GetType().GetField("oscBarCanvas", BindingFlags.Public | BindingFlags.Instance);
+
+                    if (field != null)
                     {
-                        object instance = pluginInfo.Instance;
-                        if (instance == null) return;
+                        // Get the value and cast it to GameObject
+                        GameObject oscBarCanvas = field.GetValue(instance) as GameObject;
 
-                        // Use BindingFlags.Public since the field is public
-                        // Include BindingFlags.Instance because it belongs to the plugin instance
-                        FieldInfo field = instance.GetType().GetField("oscBarCanvas", BindingFlags.Public | BindingFlags.Instance);
-
-                        if (field != null)
+                        if (oscBarCanvas != null)
                         {
-                            // Get the value and cast it to GameObject
-                            GameObject oscBarCanvas = field.GetValue(instance) as GameObject;
+                            Plugin.Logger.LogInfo("Successfully found oscBarCanvas!");
 
-                            if (oscBarCanvas != null)
-                            {
-                                Plugin.Logger.LogInfo("Successfully found oscBarCanvas!");
-
-                                foreach (TextMeshProUGUI textMesh in oscBarCanvas.GetComponentsInChildren<TextMeshProUGUI>(true))
-                                    textMesh.font = fontAsset;
-                            }
-                            else
-                                Plugin.Logger.LogWarning("oscBarCanvas field found, but it is currently null.");
+                            foreach (TextMeshProUGUI textMesh in oscBarCanvas.GetComponentsInChildren<TextMeshProUGUI>(true))
+                                textMesh.font = fontAsset;
                         }
                         else
-                            Plugin.Logger.LogError("Could not find a field named 'oscBarCanvas' in the target mod.");
+                            Plugin.Logger.LogWarning("oscBarCanvas field found, but it is currently null.");
                     }
-
-                    isPatched = true;
-                    Plugin.Logger.LogInfo($"Keyboard font patched \"{KeyboardFontPath}\"");
+                    else
+                        Plugin.Logger.LogError("Could not find a field named 'oscBarCanvas' in the target mod.");
                 }
-                else
-                    Plugin.Logger.LogError($"Config KeyboardFontPath is missing. Fallback to default");
+
+                isPatched = true;
+                Plugin.Logger.LogInfo($"Keyboard font patched \"{XConfig.KeyboardPath.Value}\"");
             }
         }
     }

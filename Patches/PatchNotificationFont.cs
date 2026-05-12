@@ -1,20 +1,12 @@
-﻿using WebSocketSharp;
-
-namespace xsoverlay_font_changer.Patches
+﻿namespace xsoverlay_font_changer.Patches
 {
     internal class PatchNotificationFont
     {
         public static void PatchCSS()
         {
-            Plugin.configData.TryGetValue("NotificationFontPath", out string NotificationFontPath);
+            Plugin.Logger.LogInfo($"Notification font patcher is loaded");
 
-            if (NotificationFontPath.IsNullOrEmpty())
-            {
-                Plugin.Logger.LogError($"Config NotificationFontPath is missing. Fallback to default");
-                return;
-            }
-
-            Utils.ApplyHtmlStyle("Notification", NotificationFontPath, ".notification-popup-title, .notification-popup-bodytext");
+            Utils.ApplyHtmlStyle("Notification", XConfig.NotificationPath.Value, ".notification-popup-title, .notification-popup-bodytext");
         }
     }
 }

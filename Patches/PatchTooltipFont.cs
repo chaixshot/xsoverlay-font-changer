@@ -1,20 +1,12 @@
-﻿using WebSocketSharp;
-
-namespace xsoverlay_font_changer.Patches
+﻿namespace xsoverlay_font_changer.Patches
 {
     internal class PatchTooltipFont
     {
         public static void PatchCSS()
         {
-            Plugin.configData.TryGetValue("TooltipFontPath", out string TooltipFontPath);
+            Plugin.Logger.LogInfo($"Tooltip font patcher is loaded");
 
-            if (TooltipFontPath.IsNullOrEmpty())
-            {
-                Plugin.Logger.LogError($"Config TooltipFontPath is missing. Fallback to default");
-                return;
-            }
-
-            Utils.ApplyHtmlStyle("Tooltip", TooltipFontPath, ".tooltip-text");
+            Utils.ApplyHtmlStyle("Tooltip", XConfig.TooltipPath.Value, ".tooltip-text");
         }
     }
 }
