@@ -11,10 +11,9 @@
 ## ⛏️ Installation
 1. [Follow the BepInEx install guide](https://github.com/BepInEx/BepInEx/wiki/Installation) for XSOverlay.
 2. Download the plugin ZIP from [Releases](https://github.com/chaixshot/xsoverlay-font-changer/releases/latest)
-3. Extract the ZIP file and move ``xsoverlay-font-changer/BepInEx`` from the release to ``[XSOverlay]/BepInEx``
-4. Edit ``[XSOverlay]/BepInEx/config/BepInEx.cfg`` file with Notepad: change ``HideManagerGameObject = true``
-5. You can change your lovely in ``[XSOverlay]/BepInEx/config/xsoverlay.font.changer.cfg`` file with Notepad
-6. Start XSOverlay
+3. Extract the ZIP file and move ``xsoverlay-font-changer`` from the release to ``[XSOverlay]/BepInEx``
+4. You can change your lovely in ``[XSOverlay]/BepInEx/config/xsoverlay.font.changer.cfg`` file with Notepad
+5. Start XSOverlay
 
 ## ⛔ Disable
-Go to ``[XSOverlay]/BepInEx/plugins/``, remove ``xsoverlay_font_changer.dll``
+Go to ``[XSOverlay]/BepInEx/plugins/``, remove **xsoverlay_font_changer.dll**
