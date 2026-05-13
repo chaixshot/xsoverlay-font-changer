@@ -1,14 +1,15 @@
 ﻿<div align="center">
- 
+
   # XSOverlay Font Changer
   ### Change the [XSOverlay](https://store.steampowered.com/app/1173510/XSOverlay/) font to your own lovely one
+  <img width="1440" height="720" alt="Gemini_Generated_Image_rbhst1rbhst1rbhs" src="https://github.com/user-attachments/assets/ee9e058b-963e-4ce1-9ca0-5d590a97448e" />
   
 </div>
 
 ## 🛠️ Features
 - Support Keyboard Unity font patching
 - Support WebView overlay CSS font patching
-- Support [xsoverlay-keyboard-osc](https://github.com/nyakowint/xsoverlay-keyboard-osc) custom input bar and WebView css font patching
+- Support [xsoverlay-keyboard-osc](https://github.com/nyakowint/xsoverlay-keyboard-osc) custom input bar and WebView custom Settings css font patching
 
 ## 🖥️ Screenshot
 <img src="./img/screenshot.jpeg" width="500"> <img src="./img/screenshot_patch.jpeg" width="500"> <img src="./img/keyboard.png" width="500"> <img src="./img/keyboard_patch.png" width="500">
@@ -21,7 +22,7 @@
 5. Start XSOverlay and enjoy!
 
 ## ⛔ Disable
-Go to `[Steam]/steamapps/common/[XSOverlay]/BepInEx/plugins/``, remove **xsoverlay_font_changer.dll**
+Go to ``[Steam]/steamapps/common/[XSOverlay]/BepInEx/plugins/``, remove **xsoverlay_font_changer.dll**
 
 ## 🗑️ Uninstall
 Go to ``[Steam]/steamapps/common/[XSOverlay]``, remove **BepInEx**, **doorstop_config.ini**, **winhttp.dll**
