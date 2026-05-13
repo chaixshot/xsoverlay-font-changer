@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using System.Threading.Tasks;
 
 namespace xsoverlay_font_changer;
 
@@ -15,6 +16,7 @@ public class Plugin : BaseUnityPlugin
     private void Awake()
     {
         // Plugin startup logic
+        Instance = this;
         Logger = base.Logger;
         XConfig.AllConfig(Config);
 
@@ -35,12 +37,12 @@ public class Plugin : BaseUnityPlugin
         harmony.PatchAll(typeof(Patches.PatchWebView));
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
+
+        Task.Run(Utils.CheckVersion);
     }
 
     private void Start()
     {
-        Instance = this;
-
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is started!");
     }
 }

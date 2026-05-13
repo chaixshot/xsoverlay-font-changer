@@ -1,8 +1,14 @@
-﻿using BepInEx.Bootstrap;
+﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Configuration;
+using System;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Vuplex.WebView;
+using XSOverlay;
 using XSOverlay.WebApp;
+using XSOverlay.Websockets.API;
 
 namespace xsoverlay_font_changer
 {
@@ -90,6 +96,84 @@ namespace xsoverlay_font_changer
         public static bool IsKeyboardOscInstalled()
         {
             return Chainloader.PluginInfos.ContainsKey("nwnt.keyboardosc");
+        }
+
+        public static async Task CheckVersion()
+        {
+            Plugin.Logger.LogError("1111111111.");
+
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("User-Agent", "xso-kbosc");
+
+            Plugin.Logger.LogInfo("Checking for plugin updates...");
+            try
+            {
+                var response = await client.GetStringAsync("https://raw.githubusercontent.com/chaixshot/xsoverlay-font-changer/main/VERSION");
+                var remoteVersion = response.Trim();
+                if (string.IsNullOrEmpty(remoteVersion))
+                {
+                    Plugin.Logger.LogError("VERSION file is empty or invalid.");
+                    return;
+                }
+
+                if (remoteVersion.StartsWith("v", StringComparison.OrdinalIgnoreCase))
+                    remoteVersion = remoteVersion.Substring(1);
+
+                if (!Version.TryParse(remoteVersion, out var remoteVerObj))
+                {
+                    Plugin.Logger.LogError($"Failed to parse remote version string: '{remoteVersion}'");
+                    return;
+                }
+
+                if (!Version.TryParse(MyPluginInfo.PLUGIN_VERSION, out var localVerObj))
+                {
+                    Plugin.Logger.LogWarning($"Local plugin version '{MyPluginInfo.PLUGIN_VERSION}' could not be parsed, skipping comparison.");
+                    return;
+                }
+
+                Plugin.Logger.LogInfo($"Remote version: {remoteVerObj}, Local version: {localVerObj}");
+
+                if (remoteVerObj > localVerObj)
+                {
+                    Plugin.Logger.LogInfo($"New version available! {remoteVerObj}");
+                    ThreadingHelper.Instance.StartSyncInvoke(() => SendNotif("XSOverlay Font Changer update available!",
+                        $"A new version of XSOverlay Font Changer [ {remoteVerObj} ] is available. You are currently using version {MyPluginInfo.PLUGIN_VERSION}."));
+                }
+                else
+                {
+                    Plugin.Logger.LogInfo("No updates available.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Logger.LogError($"Failed to check for updates: {ex.Message}");
+            }
+        }
+
+        public static void SendNotif(string title, string content = "")
+        {
+            var notif = new Objects.NotificationObject
+            {
+                title = title,
+                content = content,
+                messageType = 1,
+                timeout = 5f,
+                height = CalculateHeight(content),
+                sourceApp = "KeyboardOSC Plugin",
+                volume = 0.5f
+            };
+            XSOEventSystem.Current.EventQueueNotification(notif);
+        }
+
+        private static int CalculateHeight(string content)
+        {
+            return content.Length switch
+            {
+                <= 100 => 100,
+                <= 200 => 150,
+                <= 300 => 200,
+                _ => 250
+            };
         }
     }
 
