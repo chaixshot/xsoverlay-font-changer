@@ -7,7 +7,6 @@ using TMPro;
 using UnityEngine;
 using XSOverlay;
 
-//?? Patch Keyboard OSC custom settings font - https://github.com/nyakowint/xsoverlay-keyboard-osc
 namespace xsoverlay_font_changer.Patches
 {
     [HarmonyPatch(typeof(Overlay_Manager))]

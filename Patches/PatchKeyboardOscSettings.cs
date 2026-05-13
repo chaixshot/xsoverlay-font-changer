@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using System.IO;
 using XSOverlay;
 using XSOverlay.WebApp;
 
@@ -21,17 +20,17 @@ namespace xsoverlay_font_changer.Patches
         {
             OverlayWebView _wv = wv;
 
-            if (Path.GetFileName(_wv.LoadedURL) != "Settings.html")
-                return true;
-
-            _wv._webView.WebView.UrlChanged += (sender, args) =>
+            if (_wv.UserInterfaceSelection == OverlayWebView.UserInterfacePaths.Settings)
             {
-                if (Path.GetFileName(_wv._webView.WebView.Url) == "SettingsKO.html")
+                _wv._webView.WebView.UrlChanged += (sender, args) =>
                 {
-                    Plugin.Logger.LogInfo("KeyboardOSC Replaced settings page url!");
-                    Utils.ApplyHtmlStyle(_wv, XConfig.SettingsPath.Value, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre");
-                }
-            };
+                    if (_wv._webView.WebView.Url.Contains("SettingsKO.html"))
+                    {
+                        Plugin.Logger.LogInfo("KeyboardOSC Replaced settings page url!");
+                        Utils.ApplyHtmlStyle(_wv, XConfig.SettingsPath.Value, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre");
+                    }
+                };
+            }
 
             return true;
         }

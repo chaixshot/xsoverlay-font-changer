@@ -42,14 +42,15 @@ namespace xsoverlay_font_changer
                 {
                     if (args.Type == ProgressChangeType.Finished)
                     {
-                        Plugin.Logger.LogInfo($"Page loaded! Injecting {wv._webView.WebView.Url} CSS...");
+                        Plugin.Logger.LogInfo($"[{wv.UserInterfaceSelection}] Page loaded!");
+                        Plugin.Logger.LogInfo($"[{wv.UserInterfaceSelection}] Injecting \"{wv._webView.WebView.Url}\" CSS...");
 
                         wv._webView.WebView.ExecuteJavaScript(jsCode, (result) =>
                         {
                             if (result.Contains("ERROR"))
-                                Plugin.Logger.LogError($"[{Path.GetFileName(wv._webView.WebView.Url)}] {result}");
+                                Plugin.Logger.LogError($"[{wv.UserInterfaceSelection}] {result}");
                             else
-                                Plugin.Logger.LogInfo($"[{Path.GetFileName(wv._webView.WebView.Url)}] {result}");
+                                Plugin.Logger.LogInfo($"[{wv.UserInterfaceSelection}] {result}");
                         });
                     }
                 };

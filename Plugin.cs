@@ -20,37 +20,19 @@ public class Plugin : BaseUnityPlugin
 
         //** Keyboard
         if (XConfig.KeyboardEnable.Value)
-        {
             harmony.PatchAll(typeof(Patches.PatchKeyboard));
 
-            if (Utils.IsKeyboardOscInstalled())
+        //** KeyboardOSC - https://github.com/nyakowint/xsoverlay-keyboard-osc
+        if (Utils.IsKeyboardOscInstalled())
+        {
+            if (XConfig.SettingsEnable.Value)
+                harmony.PatchAll(typeof(Patches.PatchKeyboardOscSettings));
+            if (XConfig.KeyboardEnable.Value)
                 harmony.PatchAll(typeof(Patches.PatchKeyboardOscBar));
         }
 
-        //** Settings
-        if (XConfig.SettingsEnable.Value)
-        {
-            if (Utils.IsKeyboardOscInstalled())
-                harmony.PatchAll(typeof(Patches.PatchKeyboardOscSettings));
-            else
-                harmony.PatchAll(typeof(Patches.PatchSettings));
-        }
-
-        //** Notification
-        if (XConfig.NotificationEnable.Value)
-            harmony.PatchAll(typeof(Patches.PatchNotificationFont));
-
-        //** Tooltip
-        if (XConfig.TooltipEnable.Value)
-            harmony.PatchAll(typeof(Patches.PatchTooltip));
-
-        //** Window Overlay Settings
-        if (XConfig.WindowSettingsEnable.Value)
-            harmony.PatchAll(typeof(Patches.PatchWindowSettings));
-
-        //** Wrist
-        if (XConfig.WristEnable.Value)
-            harmony.PatchAll(typeof(Patches.PatchWrist));
+        //** WebView
+        harmony.PatchAll(typeof(Patches.PatchWebView));
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
