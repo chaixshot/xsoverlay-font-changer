@@ -12,7 +12,7 @@
 - Support [xsoverlay-keyboard-osc](https://github.com/nyakowint/xsoverlay-keyboard-osc) custom input bar and WebView custom Settings css font patching
 
 ## 🖥️ Screenshot
-<img src="./img/screenshot.jpeg" width="500"> <img src="./img/screenshot_patch.jpeg" width="500"> <img src="./img/keyboard.png" width="500"> <img src="./img/keyboard_patch.png" width="500">
+<img src="./img/screenshot.jpeg" width="400"> <img src="./img/screenshot_patch.jpeg" width="400"> <img src="./img/keyboard.png" width="400"> <img src="./img/keyboard_patch.png" width="400">
 
 ## ⛏️ Installation
 1. [Follow the BepInEx install guide](https://github.com/BepInEx/BepInEx/wiki/Installation) for [Steam]/steamapps/common/[XSOverlay].
