@@ -15,7 +15,7 @@
 <img src="./img/screenshot.jpeg" width="400"> <img src="./img/screenshot_patch.jpeg" width="400"> <img src="./img/keyboard.png" width="400"> <img src="./img/keyboard_patch.png" width="400">
 
 ## ⛏️ Installation
-1. [Follow the BepInEx install guide](https://github.com/BepInEx/BepInEx/wiki/Installation) for [Steam]/steamapps/common/[XSOverlay].
+1. [Follow the BepInEx install guide](https://github.com/BepInEx/BepInEx/wiki/Installation) (BepInEx_win_x64) to [Steam]/steamapps/common/[XSOverlay].
 2. Download the plugin ZIP from [Releases](https://github.com/chaixshot/xsoverlay-font-changer/releases/latest)
 3. Extract the ZIP file and move folders inside ``xsoverlay-font-changer`` to ``[XSOverlay]/BepInEx``
 4. You can change your lovely font in ``[XSOverlay]/BepInEx/config/xsoverlay.font.changer.cfg`` file with Notepad
