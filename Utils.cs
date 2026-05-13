@@ -100,8 +100,6 @@ namespace xsoverlay_font_changer
 
         public static async Task CheckVersion()
         {
-            Plugin.Logger.LogError("1111111111.");
-
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "xso-kbosc");
 
