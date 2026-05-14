@@ -19,7 +19,8 @@
 2. Download the plugin ZIP from [Releases](https://github.com/chaixshot/xsoverlay-font-changer/releases/latest)
 3. Extract the ZIP file and move folders inside ``xsoverlay-font-changer`` to ``[XSOverlay]/BepInEx``
 4. You can change your lovely font in ``[XSOverlay]/BepInEx/config/xsoverlay.font.changer.cfg`` file with Notepad
-5. Start XSOverlay and enjoy!
+5. Edit ``[XSOverlay]/BepInEx/config/BepInEx.cfg`` file with Notepad and change **HideManagerGameObject = true**
+6. Start XSOverlay and enjoy!
 
 ## ⛔ Disable
 Go to ``[Steam]/steamapps/common/[XSOverlay]/BepInEx/plugins/``, remove **xsoverlay_font_changer.dll**
