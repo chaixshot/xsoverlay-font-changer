@@ -64,6 +64,8 @@ namespace xsoverlay_font_changer.Patches.Setting
         [HarmonyPostfix]
         public static void OnRequestCurrentSettings(string sender)
         {
+            if (!sender.Equals("systemui_settings")) return;
+
             FontChangerSettings settings = new()
             {
                 // Keyboard
