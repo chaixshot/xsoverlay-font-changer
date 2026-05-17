@@ -20,10 +20,8 @@ public class Plugin : BaseUnityPlugin
         Logger = base.Logger;
         XConfig.AllConfig(Config);
 
-        //** WebView
         harmony.PatchAll(typeof(Patches.PatchKeyboard));
         harmony.PatchAll(typeof(PatchWebView));
-
         harmony.PatchAll(typeof(Patches.Setting.SettingPage));
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
