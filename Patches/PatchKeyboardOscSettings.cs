@@ -27,7 +27,7 @@ namespace xsoverlay_font_changer.Patches
                     if (_wv._webView.WebView.Url.Contains("SettingsKO.html"))
                     {
                         Plugin.Logger.LogInfo("KeyboardOSC Replaced settings page url!");
-                        Utils.ApplyHtmlStyle(_wv, XConfig.SettingsPath.Value, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre");
+                        WebView.Execute.ApplyHtmlStyle(_wv, XConfig.SettingsPath.Value, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre");
                     }
                 };
             }

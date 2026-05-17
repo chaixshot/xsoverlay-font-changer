@@ -1,7 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using System.Threading.Tasks;
+using xsoverlay_font_changer.Patches.WebView;
 
 namespace xsoverlay_font_changer;
 
@@ -25,7 +25,7 @@ public class Plugin : BaseUnityPlugin
             harmony.PatchAll(typeof(Patches.PatchKeyboard));
 
         //** KeyboardOSC - https://github.com/nyakowint/xsoverlay-keyboard-osc
-        if (Utils.IsKeyboardOscInstalled())
+        if (MyPluginInfo.IsKeyboardOscInstalled())
         {
             if (XConfig.SettingsEnable.Value)
                 harmony.PatchAll(typeof(Patches.PatchKeyboardOscSettings));
@@ -34,11 +34,9 @@ public class Plugin : BaseUnityPlugin
         }
 
         //** WebView
-        harmony.PatchAll(typeof(Patches.PatchWebView));
+        harmony.PatchAll(typeof(PatchWebView));
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
-
-        Task.Run(Utils.CheckVersion);
     }
 
     private void Start()
