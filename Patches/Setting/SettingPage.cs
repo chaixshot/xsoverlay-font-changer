@@ -17,27 +17,27 @@ namespace xsoverlay_font_changer.Patches.Setting
         {
             public bool XSOverlayFontChanger_KeyboardEnable;
             public string XSOverlayFontChanger_KeyboardPath;
-            public int XSOverlayFontChanger_KeyboardSize;
+            public int XSOverlayFontChanger_KeyboardScale;
 
             public bool XSOverlayFontChanger_NotificationEnable;
             public string XSOverlayFontChanger_NotificationPath;
-            public int XSOverlayFontChanger_NotificationSize;
+            public int XSOverlayFontChanger_NotificationScale;
 
             public bool XSOverlayFontChanger_SettingsEnable;
             public string XSOverlayFontChanger_SettingsPath;
-            public int XSOverlayFontChanger_SettingsSize;
+            public int XSOverlayFontChanger_SettingsScale;
 
             public bool XSOverlayFontChanger_TooltipEnable;
             public string XSOverlayFontChanger_TooltipPath;
-            public int XSOverlayFontChanger_TooltipSize;
+            public int XSOverlayFontChanger_TooltipScale;
 
             public bool XSOverlayFontChanger_WindowSettingsEnable;
             public string XSOverlayFontChanger_WindowSettingsPath;
-            public int XSOverlayFontChanger_WindowSettingsSize;
+            public int XSOverlayFontChanger_WindowSettingsScale;
 
             public bool XSOverlayFontChanger_WristEnable;
             public string XSOverlayFontChanger_WristPath;
-            public int XSOverlayFontChanger_WristSize;
+            public int XSOverlayFontChanger_WristScale;
         }
         private static readonly System.Collections.Generic.Dictionary<int, string> fontList = [];
         private static readonly System.Collections.Generic.Dictionary<int, string> fontName = [];
@@ -71,32 +71,32 @@ namespace xsoverlay_font_changer.Patches.Setting
                 // Keyboard
                 XSOverlayFontChanger_KeyboardEnable = XConfig.KeyboardEnable.Value,
                 XSOverlayFontChanger_KeyboardPath = XConfig.KeyboardPath.Value,
-                XSOverlayFontChanger_KeyboardSize = XConfig.KeyboardScale.Value,
+                XSOverlayFontChanger_KeyboardScale = XConfig.KeyboardScale.Value,
 
                 // Notification
                 XSOverlayFontChanger_NotificationEnable = XConfig.NotificationEnable.Value,
                 XSOverlayFontChanger_NotificationPath = XConfig.NotificationPath.Value,
-                XSOverlayFontChanger_NotificationSize = XConfig.NotificationScale.Value,
+                XSOverlayFontChanger_NotificationScale = XConfig.NotificationScale.Value,
 
                 // Settings
                 XSOverlayFontChanger_SettingsEnable = XConfig.SettingsEnable.Value,
                 XSOverlayFontChanger_SettingsPath = XConfig.SettingsPath.Value,
-                XSOverlayFontChanger_SettingsSize = XConfig.SettingsScale.Value,
+                XSOverlayFontChanger_SettingsScale = XConfig.SettingsScale.Value,
 
                 // Tooltip
                 XSOverlayFontChanger_TooltipEnable = XConfig.TooltipEnable.Value,
                 XSOverlayFontChanger_TooltipPath = XConfig.TooltipPath.Value,
-                XSOverlayFontChanger_TooltipSize = XConfig.TooltipScale.Value,
+                XSOverlayFontChanger_TooltipScale = XConfig.TooltipScale.Value,
 
                 // Window Settings
                 XSOverlayFontChanger_WindowSettingsEnable = XConfig.WindowSettingsEnable.Value,
                 XSOverlayFontChanger_WindowSettingsPath = XConfig.WindowSettingsPath.Value,
-                XSOverlayFontChanger_WindowSettingsSize = XConfig.WindowSettingsScale.Value,
+                XSOverlayFontChanger_WindowSettingsScale = XConfig.WindowSettingsScale.Value,
 
                 // Wrist
                 XSOverlayFontChanger_WristEnable = XConfig.WristEnable.Value,
                 XSOverlayFontChanger_WristPath = XConfig.WristPath.Value,
-                XSOverlayFontChanger_WristSize = XConfig.WristScale.Value
+                XSOverlayFontChanger_WristScale = XConfig.WristScale.Value
             };
 
             var data = JsonUtility.ToJson(settings);
