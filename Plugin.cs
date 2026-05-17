@@ -23,16 +23,6 @@ public class Plugin : BaseUnityPlugin
         //** Keyboard
         if (XConfig.KeyboardEnable.Value)
             harmony.PatchAll(typeof(Patches.PatchKeyboard));
-
-        //** KeyboardOSC - https://github.com/nyakowint/xsoverlay-keyboard-osc
-        if (MyPluginInfo.IsKeyboardOscInstalled())
-        {
-            if (XConfig.SettingsEnable.Value)
-                harmony.PatchAll(typeof(Patches.PatchKeyboardOscSettings));
-            if (XConfig.KeyboardEnable.Value)
-                harmony.PatchAll(typeof(Patches.PatchKeyboardOscBar));
-        }
-
         //** WebView
         harmony.PatchAll(typeof(PatchWebView));
 
