@@ -15,29 +15,29 @@ namespace xsoverlay_font_changer.Patches.Setting
         [Serializable]
         public class FontChangerSettings
         {
-            public bool KeyboardEnable;
-            public string KeyboardPath;
-            public int KeyboardSize;
+            public bool XSOverlayFontChanger_KeyboardEnable;
+            public string XSOverlayFontChanger_KeyboardPath;
+            public int XSOverlayFontChanger_KeyboardSize;
 
-            public bool NotificationEnable;
-            public string NotificationPath;
-            public int NotificationSize;
+            public bool XSOverlayFontChanger_NotificationEnable;
+            public string XSOverlayFontChanger_NotificationPath;
+            public int XSOverlayFontChanger_NotificationSize;
 
-            public bool SettingsEnable;
-            public string SettingsPath;
-            public int SettingsSize;
+            public bool XSOverlayFontChanger_SettingsEnable;
+            public string XSOverlayFontChanger_SettingsPath;
+            public int XSOverlayFontChanger_SettingsSize;
 
-            public bool TooltipEnable;
-            public string TooltipPath;
-            public int TooltipSize;
+            public bool XSOverlayFontChanger_TooltipEnable;
+            public string XSOverlayFontChanger_TooltipPath;
+            public int XSOverlayFontChanger_TooltipSize;
 
-            public bool WindowSettingsEnable;
-            public string WindowSettingsPath;
-            public int WindowSettingsSize;
+            public bool XSOverlayFontChanger_WindowSettingsEnable;
+            public string XSOverlayFontChanger_WindowSettingsPath;
+            public int XSOverlayFontChanger_WindowSettingsSize;
 
-            public bool WristEnable;
-            public string WristPath;
-            public int WristSize;
+            public bool XSOverlayFontChanger_WristEnable;
+            public string XSOverlayFontChanger_WristPath;
+            public int XSOverlayFontChanger_WristSize;
         }
         private static readonly System.Collections.Generic.Dictionary<int, string> fontList = [];
         private static readonly System.Collections.Generic.Dictionary<int, string> fontName = [];
@@ -67,34 +67,34 @@ namespace xsoverlay_font_changer.Patches.Setting
             FontChangerSettings settings = new()
             {
                 // Keyboard
-                KeyboardEnable = XConfig.KeyboardEnable.Value,
-                KeyboardPath = XConfig.KeyboardPath.Value,
-                KeyboardSize = XConfig.KeyboardScale.Value,
+                XSOverlayFontChanger_KeyboardEnable = XConfig.KeyboardEnable.Value,
+                XSOverlayFontChanger_KeyboardPath = XConfig.KeyboardPath.Value,
+                XSOverlayFontChanger_KeyboardSize = XConfig.KeyboardScale.Value,
 
                 // Notification
-                NotificationEnable = XConfig.NotificationEnable.Value,
-                NotificationPath = XConfig.NotificationPath.Value,
-                NotificationSize = XConfig.NotificationScale.Value,
+                XSOverlayFontChanger_NotificationEnable = XConfig.NotificationEnable.Value,
+                XSOverlayFontChanger_NotificationPath = XConfig.NotificationPath.Value,
+                XSOverlayFontChanger_NotificationSize = XConfig.NotificationScale.Value,
 
                 // Settings
-                SettingsEnable = XConfig.SettingsEnable.Value,
-                SettingsPath = XConfig.SettingsPath.Value,
-                SettingsSize = XConfig.SettingsScale.Value,
+                XSOverlayFontChanger_SettingsEnable = XConfig.SettingsEnable.Value,
+                XSOverlayFontChanger_SettingsPath = XConfig.SettingsPath.Value,
+                XSOverlayFontChanger_SettingsSize = XConfig.SettingsScale.Value,
 
                 // Tooltip
-                TooltipEnable = XConfig.TooltipEnable.Value,
-                TooltipPath = XConfig.TooltipPath.Value,
-                TooltipSize = XConfig.TooltipScale.Value,
+                XSOverlayFontChanger_TooltipEnable = XConfig.TooltipEnable.Value,
+                XSOverlayFontChanger_TooltipPath = XConfig.TooltipPath.Value,
+                XSOverlayFontChanger_TooltipSize = XConfig.TooltipScale.Value,
 
                 // Window Settings
-                WindowSettingsEnable = XConfig.WindowSettingsEnable.Value,
-                WindowSettingsPath = XConfig.WindowSettingsPath.Value,
-                WindowSettingsSize = XConfig.WindowSettingsScale.Value,
+                XSOverlayFontChanger_WindowSettingsEnable = XConfig.WindowSettingsEnable.Value,
+                XSOverlayFontChanger_WindowSettingsPath = XConfig.WindowSettingsPath.Value,
+                XSOverlayFontChanger_WindowSettingsSize = XConfig.WindowSettingsScale.Value,
 
                 // Wrist
-                WristEnable = XConfig.WristEnable.Value,
-                WristPath = XConfig.WristPath.Value,
-                WristSize = XConfig.WristScale.Value
+                XSOverlayFontChanger_WristEnable = XConfig.WristEnable.Value,
+                XSOverlayFontChanger_WristPath = XConfig.WristPath.Value,
+                XSOverlayFontChanger_WristSize = XConfig.WristScale.Value
             };
 
             var data = JsonUtility.ToJson(settings);
