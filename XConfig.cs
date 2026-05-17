@@ -4,43 +4,43 @@ namespace xsoverlay_font_changer
 {
     internal class XConfig
     {
-        public static ConfigEntry<string> KeyboardPath;
         public static ConfigEntry<bool> KeyboardEnable;
+        public static ConfigEntry<string> KeyboardPath;
 
-        public static ConfigEntry<string> NotificationPath;
         public static ConfigEntry<bool> NotificationEnable;
+        public static ConfigEntry<string> NotificationPath;
 
-        public static ConfigEntry<string> SettingsPath;
         public static ConfigEntry<bool> SettingsEnable;
+        public static ConfigEntry<string> SettingsPath;
 
-        public static ConfigEntry<string> TooltipPath;
         public static ConfigEntry<bool> TooltipEnable;
+        public static ConfigEntry<string> TooltipPath;
 
-        public static ConfigEntry<string> WindowSettingsPath;
         public static ConfigEntry<bool> WindowSettingsEnable;
+        public static ConfigEntry<string> WindowSettingsPath;
 
-        public static ConfigEntry<string> WristPath;
         public static ConfigEntry<bool> WristEnable;
+        public static ConfigEntry<string> WristPath;
 
         public static void AllConfig(ConfigFile cfg)
         {
-            KeyboardPath = cfg.Bind("Keyboard", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Location of Keyboard font file.");
-            KeyboardEnable = cfg.Bind("Keyboard", "Enable", true, "When enabled, Keyboard font will patch.");
+            KeyboardEnable = cfg.Bind("Keyboard", "Enable", true, "Enabled Keyboard font patching.");
+            KeyboardPath = cfg.Bind("Keyboard", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Keyboard font name.");
 
-            NotificationPath = cfg.Bind("Notification", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Location of Notification font file.");
-            NotificationEnable = cfg.Bind("Notification", "Enable", true, "When enabled, Notification font will patch.");
+            NotificationEnable = cfg.Bind("Notification", "Enable", true, "Enabled Notification font patching.");
+            NotificationPath = cfg.Bind("Notification", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Notification font name.");
 
-            SettingsPath = cfg.Bind("Settings", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Location of Settings font file.");
-            SettingsEnable = cfg.Bind("Settings", "Enable", true, "When enabled, Settings font will patch.");
+            SettingsEnable = cfg.Bind("Settings", "Enable", true, "Enabled Settings font patching.");
+            SettingsPath = cfg.Bind("Settings", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Settings font name.");
 
-            TooltipPath = cfg.Bind("Tooltip", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Location of Tooltip font file.");
-            TooltipEnable = cfg.Bind("Tooltip", "Enable", true, "When enabled, Tooltip font will patch.");
+            TooltipEnable = cfg.Bind("Tooltip", "Enable", true, "Enabled Tooltip font patching.");
+            TooltipPath = cfg.Bind("Tooltip", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Tooltip font name.");
 
-            WindowSettingsPath = cfg.Bind("WindowSettings", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Location of Window Overlay Settings font file.");
-            WindowSettingsEnable = cfg.Bind("WindowSettings", "Enable", true, "When enabled, Window Overlay Settings font will patch.");
+            WindowSettingsEnable = cfg.Bind("WindowSettings", "Enable", true, "Enabled Window Overlay font patching.");
+            WindowSettingsPath = cfg.Bind("WindowSettings", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Window Overlay font name.");
 
-            WristPath = cfg.Bind("Wrist", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Location of Wrist font file.");
-            WristEnable = cfg.Bind("Wrist", "Enable", true, "When enabled, Wrist font will patch.");
+            WristEnable = cfg.Bind("Wrist", "Enable", true, "Enabled Wrist font patching.");
+            WristPath = cfg.Bind("Wrist", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Wrist font name.");
         }
     }
 }

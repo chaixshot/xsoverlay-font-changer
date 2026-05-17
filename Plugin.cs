@@ -36,6 +36,8 @@ public class Plugin : BaseUnityPlugin
         //** WebView
         harmony.PatchAll(typeof(PatchWebView));
 
+        harmony.PatchAll(typeof(Patches.Setting.SettingPage));
+
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
 
