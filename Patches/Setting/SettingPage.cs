@@ -15,7 +15,29 @@ namespace xsoverlay_font_changer.Patches.Setting
         [Serializable]
         public class FontChangerSettings
         {
+            public bool KeyboardEnable;
             public string KeyboardPath;
+            public int KeyboardSize;
+
+            public bool NotificationEnable;
+            public string NotificationPath;
+            public int NotificationSize;
+
+            public bool SettingsEnable;
+            public string SettingsPath;
+            public int SettingsSize;
+
+            public bool TooltipEnable;
+            public string TooltipPath;
+            public int TooltipSize;
+
+            public bool WindowSettingsEnable;
+            public string WindowSettingsPath;
+            public int WindowSettingsSize;
+
+            public bool WristEnable;
+            public string WristPath;
+            public int WristSize;
         }
         private static readonly System.Collections.Generic.Dictionary<int, string> fontList = [];
         private static readonly System.Collections.Generic.Dictionary<int, string> fontName = [];
@@ -44,12 +66,41 @@ namespace xsoverlay_font_changer.Patches.Setting
         {
             FontChangerSettings settings = new()
             {
+                // Keyboard
+                KeyboardEnable = XConfig.KeyboardEnable.Value,
                 KeyboardPath = XConfig.KeyboardPath.Value,
+                KeyboardSize = XConfig.KeyboardSize.Value,
+
+                // Notification
+                NotificationEnable = XConfig.NotificationEnable.Value,
+                NotificationPath = XConfig.NotificationPath.Value,
+                NotificationSize = XConfig.NotificationSize.Value,
+
+                // Settings
+                SettingsEnable = XConfig.SettingsEnable.Value,
+                SettingsPath = XConfig.SettingsPath.Value,
+                SettingsSize = XConfig.SettingsSize.Value,
+
+                // Tooltip
+                TooltipEnable = XConfig.TooltipEnable.Value,
+                TooltipPath = XConfig.TooltipPath.Value,
+                TooltipSize = XConfig.TooltipSize.Value,
+
+                // Window Settings
+                WindowSettingsEnable = XConfig.WindowSettingsEnable.Value,
+                WindowSettingsPath = XConfig.WindowSettingsPath.Value,
+                WindowSettingsSize = XConfig.WindowSettingsSize.Value,
+
+                // Wrist
+                WristEnable = XConfig.WristEnable.Value,
+                WristPath = XConfig.WristPath.Value,
+                WristSize = XConfig.WristSize.Value
             };
 
             var data = JsonUtility.ToJson(settings);
             ServerClientBridge.Instance.Api.SendMessage("UpdateSettings", data, null, sender);
         }
+
 
         [HarmonyPatch(typeof(XSettingsManager)), HarmonyPatch(nameof(XSettingsManager.SetSetting))]
         [HarmonyPrefix]
@@ -57,42 +108,73 @@ namespace xsoverlay_font_changer.Patches.Setting
         {
             switch (name)
             {
+                // Keyboard
                 case "XSOverlayFontChanger.KeyboardEnable":
                     XConfig.KeyboardEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.KeyboardPath":
                     XConfig.KeyboardPath.Value = fontList[int.Parse(value)];
                     break;
+                case "XSOverlayFontChanger.KeyboardSize":
+                    XConfig.KeyboardSize.Value = int.Parse(value);
+                    break;
+
+                // Notification
                 case "XSOverlayFontChanger.NotificationEnable":
                     XConfig.NotificationEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.NotificationPath":
                     XConfig.NotificationPath.Value = fontList[int.Parse(value)];
                     break;
+                case "XSOverlayFontChanger.NotificationSize":
+                    XConfig.NotificationSize.Value = int.Parse(value);
+                    break;
+
+                // Settings
                 case "XSOverlayFontChanger.SettingsEnable":
                     XConfig.SettingsEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.SettingsPath":
                     XConfig.SettingsPath.Value = fontList[int.Parse(value)];
                     break;
+                case "XSOverlayFontChanger.SettingsSize":
+                    XConfig.SettingsSize.Value = int.Parse(value);
+                    break;
+
+                // Tooltip
                 case "XSOverlayFontChanger.TooltipEnable":
                     XConfig.TooltipEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.TooltipPath":
                     XConfig.TooltipPath.Value = fontList[int.Parse(value)];
                     break;
+                case "XSOverlayFontChanger.TooltipSize":
+                    XConfig.TooltipSize.Value = int.Parse(value);
+                    break;
+
+                // Window Settings
                 case "XSOverlayFontChanger.WindowSettingsEnable":
                     XConfig.WindowSettingsEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.WindowSettingsPath":
                     XConfig.WindowSettingsPath.Value = fontList[int.Parse(value)];
                     break;
+                case "XSOverlayFontChanger.WindowSettingsSize":
+                    XConfig.WindowSettingsSize.Value = int.Parse(value);
+                    break;
+
+                // Wrist
                 case "XSOverlayFontChanger.WristEnable":
                     XConfig.WristEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.WristPath":
                     XConfig.WristPath.Value = fontList[int.Parse(value)];
                     break;
+                case "XSOverlayFontChanger.WristSize":
+                    XConfig.WristSize.Value = int.Parse(value);
+                    break;
+
+                // About
                 case "XSOverlayFontChanger.CheckForUpdate":
                     Utils.Update.CheckForUpdate();
                     break;
@@ -128,7 +210,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                 {
                     wv._webView.WebView.ExecuteJavaScript(jsCode, (result) =>
                     {
-                        //Plugin.Logger.LogError($"[{wv.UserInterfaceSelection}] {result}");
+                        Plugin.Logger.LogError($"[{wv.UserInterfaceSelection}] {result}");
                     });
                 }
             };

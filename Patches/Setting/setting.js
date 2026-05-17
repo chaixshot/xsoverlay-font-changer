@@ -17,37 +17,43 @@ function InjectKBOSCTab() {
             {
                 name: 'Keyboard', priority: 1, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.KeyboardEnable', name: 'Enable', description: 'Enabled Keyboard font patching.', default: true },
-                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.KeyboardPath', name: 'Font', description: 'Keyboard font name.', default: '<<KeyboardFont>>', options: [<<FontList>>] }
+                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.KeyboardPath', name: 'Font', description: 'Keyboard font name.', default: '<<KeyboardFont>>', options: [<<FontList>>] },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.KeyboardSize', name: 'Size', description: 'Keyboard font size.', default: 16, options: [1, 100, 1], unit: 'Pixel' },
                 ]
             },
             {
                 name: 'Notification', priority: 2, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.NotificationEnable', name: 'Enable', description: 'Enabled Notification font patching.', default: true },
-                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.NotificationPath', name: 'Font', description: 'Notification font name.', default: '<<NotificationFont>>', options: [<<FontList>>] }
+                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.NotificationPath', name: 'Font', description: 'Notification font name.', default: '<<NotificationFont>>', options: [<<FontList>>] },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.NotificationSize', name: 'Size', description: 'Notification font size.', default: 16, options: [1, 100, 1], unit: 'Pixel' },
                 ]
             },
             {
                 name: 'Settings', priority: 3, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.SettingsEnable', name: 'Enable', description: 'Enabled Settings font patching.', default: true },
-                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.SettingsPath', name: 'Font', description: 'Settings font name.', default: '<<SettingsFont>>', options: [<<FontList>>] }
+                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.SettingsPath', name: 'Font', description: 'Settings font name.', default: '<<SettingsFont>>', options: [<<FontList>>] },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.SettingsSize', name: 'Size', description: 'Settings font size.', default: 16, options: [1, 100, 1], unit: 'Pixel' },
                 ]
             },
             {
                 name: 'Tooltip', priority: 4, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.TooltipEnable', name: 'Enable', description: 'Enabled Tooltip font patching.', default: true },
-                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.TooltipPath', name: 'Font', description: 'Tooltip font name.', default: '<<TooltipFont>>', options: [<<FontList>>] }
+                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.TooltipPath', name: 'Font', description: 'Tooltip font name.', default: '<<TooltipFont>>', options: [<<FontList>>] },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.TooltipSize', name: 'Size', description: 'Tooltip font size.', default: 16, options: [1, 100, 1], unit: 'Pixel' },
                 ]
             },
             {
                 name: 'WindowSettings', priority: 5, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.WindowSettingsEnable', name: 'Enable', description: 'Enabled Window Overlay font patching.', default: true },
-                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.WindowSettingsPath', name: 'Font', description: 'Window Overlay font name.', default: '<<WindowSettingsFont>>', options: [<<FontList>>] }
+                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.WindowSettingsPath', name: 'Font', description: 'Window Overlay font name.', default: '<<WindowSettingsFont>>', options: [<<FontList>>] },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.WindowSettingsSize', name: 'Size', description: 'Window Overlay font size.', default: 16, options: [1, 100, 1], unit: 'Pixel' },
                 ]
             },
             {
                 name: 'Wrist', priority: 6, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.WristEnable', name: 'Enable', description: 'Enabled Wrist font patching.', default: true },
-                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.WristPath', name: 'Font', description: 'Wrist font name.', default: '<<WristFont>>', options: [<<FontList>>] }
+                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.WristPath', name: 'Font', description: 'Wrist font name.', default: '<<WristFont>>', options: [<<FontList>>] },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.WristSize', name: 'Size', description: 'Wrist font size.', default: 16, options: [1, 100, 1], unit: 'Pixel' },
                 ]
             },
             {
