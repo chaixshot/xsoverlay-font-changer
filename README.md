@@ -7,9 +7,12 @@
 </div>
 
 ## 🛠️ Features
-- Support Keyboard Unity font patching
-- Support WebView overlay CSS font patching
-- Support [xsoverlay-keyboard-osc](https://github.com/nyakowint/xsoverlay-keyboard-osc) custom input bar and WebView custom Settings css font patching
+- Using a Windows pre-installed font
+- Change font setting in the XSOverlay settings menu
+- Support changing at runtime
+- Support Keyboard font patching
+- Support WebView overlay CSS (Wrist, Setting, Notification) font patching
+- Compatible with [xsoverlay-keyboard-osc](https://github.com/nyakowint/xsoverlay-keyboard-osc) custom input canvas
 
 ## 🖥️ Screenshot
 <img src="./img/screenshot.jpeg" width="400"> <img src="./img/screenshot_patch.jpeg" width="400"> <img src="./img/keyboard.png" width="400"> <img src="./img/keyboard_patch.png" width="400">
