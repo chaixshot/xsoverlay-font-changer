@@ -20,10 +20,8 @@ public class Plugin : BaseUnityPlugin
         Logger = base.Logger;
         XConfig.AllConfig(Config);
 
-        //** Keyboard
-        if (XConfig.KeyboardEnable.Value)
-            harmony.PatchAll(typeof(Patches.PatchKeyboard));
         //** WebView
+        harmony.PatchAll(typeof(Patches.PatchKeyboard));
         harmony.PatchAll(typeof(PatchWebView));
 
         harmony.PatchAll(typeof(Patches.Setting.SettingPage));

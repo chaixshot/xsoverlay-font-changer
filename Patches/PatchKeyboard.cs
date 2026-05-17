@@ -1,6 +1,9 @@
-﻿using HarmonyLib;
+﻿using BepInEx;
+using BepInEx.Bootstrap;
+using HarmonyLib;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using XSOverlay;
@@ -54,10 +57,22 @@ namespace xsoverlay_font_changer.Patches
 
             if (!keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
             {
-                foreach (TextMeshProUGUI textMesh in KeyboardOverlay.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
-                    Original[textMesh.GetInstanceID()] = (textMesh.font, textMesh.fontSize);
+                // Store original font and font size for each TextMeshProUGUI in the keyboard overlay
+                {
+                    // Default keyboard
+                    foreach (TextMeshProUGUI textMesh in KeyboardOverlay.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
+                        Original[textMesh.GetInstanceID()] = (textMesh.font, textMesh.fontSize);
 
-                ApplyFontPatch(KeyboardOverlay);
+                    // KeyboardOSC
+                    if (MyPluginInfo.IsKeyboardOscInstalled())
+                    {
+                        foreach (TextMeshProUGUI textMesh in GetKeyboardOscCanvas())
+                            Original[textMesh.GetInstanceID()] = (textMesh.font, textMesh.fontSize);
+                    }
+                }
+
+                if (IsEnabled())
+                    ApplyFontPatch(KeyboardOverlay);
             }
         }
 
@@ -68,12 +83,26 @@ namespace xsoverlay_font_changer.Patches
                 Font font = new(XConfig.KeyboardPath.Value);
                 TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
 
+                // Default keyboard
                 foreach (TextMeshProUGUI textMesh in instance.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
                 {
                     if (Original.TryGetValue(textMesh.GetInstanceID(), out (TMP_FontAsset fontAsset, float fontSize) original))
                     {
                         textMesh.font = fontAsset;
                         textMesh.fontSize = original.fontSize + XConfig.KeyboardScale.Value;
+                    }
+                }
+
+                // KeyboardOSC
+                if (MyPluginInfo.IsKeyboardOscInstalled())
+                {
+                    foreach (TextMeshProUGUI textMesh in GetKeyboardOscCanvas())
+                    {
+                        if (Original.TryGetValue(textMesh.GetInstanceID(), out (TMP_FontAsset fontAsset, float fontSize) original))
+                        {
+                            textMesh.font = fontAsset;
+                            textMesh.fontSize = original.fontSize + XConfig.KeyboardScale.Value;
+                        }
                     }
                 }
 
@@ -85,6 +114,7 @@ namespace xsoverlay_font_changer.Patches
 
         private static void RestoreFontPatch(Overlay_Manager instance)
         {
+            // Default keyboard
             foreach (TextMeshProUGUI textMesh in instance.Keyboard.GetComponentsInChildren<TextMeshProUGUI>(true))
             {
                 if (Original.TryGetValue(textMesh.GetInstanceID(), out (TMP_FontAsset fontAsset, float fontSize) original))
@@ -94,7 +124,52 @@ namespace xsoverlay_font_changer.Patches
                 }
             }
 
+            // KeyboardOSC
+            if (MyPluginInfo.IsKeyboardOscInstalled())
+            {
+                foreach (TextMeshProUGUI textMesh in GetKeyboardOscCanvas())
+                {
+                    if (Original.TryGetValue(textMesh.GetInstanceID(), out (TMP_FontAsset fontAsset, float fontSize) original))
+                    {
+                        textMesh.font = original.fontAsset;
+                        textMesh.fontSize = original.fontSize;
+                    }
+                }
+            }
+
             Plugin.Logger.LogInfo($"Keyboard font patch removed.");
+        }
+
+        private static TextMeshProUGUI[] GetKeyboardOscCanvas()
+        {
+            if (Chainloader.PluginInfos.TryGetValue("nwnt.keyboardosc", out PluginInfo pluginInfo))
+            {
+                object instance = pluginInfo.Instance;
+                if (instance == null) return [];
+
+                // Use BindingFlags.Public since the field is public
+                // Include BindingFlags.Instance because it belongs to the plugin instance
+                FieldInfo field = instance.GetType().GetField("oscBarCanvas", BindingFlags.Public | BindingFlags.Instance);
+
+                if (field != null)
+                {
+                    // Get the value and cast it to GameObject
+                    GameObject oscBarCanvas = field.GetValue(instance) as GameObject;
+
+                    if (oscBarCanvas != null)
+                    {
+                        Plugin.Logger.LogInfo("Successfully found oscBarCanvas!");
+
+                        return oscBarCanvas.GetComponentsInChildren<TextMeshProUGUI>(true);
+                    }
+                    else
+                        Plugin.Logger.LogWarning("oscBarCanvas field found, but it is currently null.");
+                }
+                else
+                    Plugin.Logger.LogError("Could not find a field named 'oscBarCanvas' in the target mod.");
+            }
+
+            return [];
         }
 
         private static bool IsEnabled()
