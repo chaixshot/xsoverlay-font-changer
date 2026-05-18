@@ -194,10 +194,10 @@ namespace xsoverlay_font_changer.Patches.Setting
         private static void PrepairSystemFontList()
         {
             var fontsDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
-            var allowedExt = new System.Collections.Generic.HashSet<string>(new[] { ".ttf", ".otf", ".ttc", ".woff", ".woff2" }, System.StringComparer.OrdinalIgnoreCase);
-            var seenFiles = new System.Collections.Generic.HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
-            var seenFamilies = new System.Collections.Generic.HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
-            var entries = new System.Collections.Generic.List<string>();
+            var allowedExt = new HashSet<string>([".ttf", ".otf", ".ttc", ".woff", ".woff2"], StringComparer.OrdinalIgnoreCase);
+            var seenFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var seenFamilies = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var entries = new List<string>();
             int index = 0;
 
             // Read registry-installed fonts (canonical)
