@@ -26,6 +26,8 @@ function InjectKBOSCTab() {
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.NotificationEnable', name: 'Enable', description: 'Apply Notification font modification.', default: true },
                     { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.NotificationPath', name: 'Font', description: 'Notification font name.', default: '<<NotificationFont>>', options: [<<FontList>>] },
                     { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.NotificationScale', name: 'Scale', description: 'Notification font scale.', default: 0, options: [-10, 10, 1], unit: '%' },
+                    { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.NotificationTestSmall', name: 'Test Small'},
+                    { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.NotificationTestLarge', name: 'Test Large'},
                 ]
             },
             {
@@ -58,8 +60,8 @@ function InjectKBOSCTab() {
             },
             {
                 name: 'About', priority: 5, settings: [
-                    { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.CheckForUpdate', name: 'Check for Updates', description: 'Check for the latest version of XSOverlay Font Changer.', default: true },
-                    { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.OpenGitHub', name: 'Open GitHub Page', description: 'Visit the XSOverlay Font Changer GitHub page.', default: true },
+                    { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.CheckForUpdate', name: 'Check for Updates', description: 'Check for the latest version of XSOverlay Font Changer.'},
+                    { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.OpenGitHub', name: 'Open GitHub Page', description: 'Visit the XSOverlay Font Changer GitHub page.'},
                 ]
             }
         ];

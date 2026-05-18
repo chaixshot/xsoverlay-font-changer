@@ -104,6 +104,12 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.NotificationScale":
                     XConfig.NotificationScale.Value = int.Parse(value);
                     break;
+                case "XSOverlayFontChanger.NotificationTestSmall":
+                    NotificationHandler.Instance.CreateSmallTestNotification();
+                    break;
+                case "XSOverlayFontChanger.NotificationTestLarge":
+                    NotificationHandler.Instance.CreateLargeTestNotification();
+                    break;
 
                 // Settings
                 case "XSOverlayFontChanger.SettingsEnable":
