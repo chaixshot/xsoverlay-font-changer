@@ -4,6 +4,8 @@ using HarmonyLib;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using XSOverlay;
@@ -39,11 +41,19 @@ namespace xsoverlay_font_changer.Patches
                         ApplyFontPatch(KeyboardOverlay);
             };
 
-            XConfig.KeyboardScale.SettingChanged += (_, _) =>
+            CancellationTokenSource debounceCts = null;
+            XConfig.KeyboardScale.SettingChanged += async (_, _) =>
             {
                 if (IsKeyboardExist)
                     if (IsEnabled())
+                    {
+                        debounceCts?.Cancel();
+                        debounceCts?.Dispose();
+                        debounceCts = new CancellationTokenSource();
+
+                        await Task.Delay(500, debounceCts.Token);
                         ApplyFontPatch(KeyboardOverlay);
+                    }
             };
         }
 
