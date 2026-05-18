@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
@@ -12,35 +13,8 @@ namespace xsoverlay_font_changer.Patches.Setting
 {
     internal class SettingPage
     {
-        [Serializable]
-        public class FontChangerSettings
-        {
-            public bool XSOverlayFontChanger_KeyboardEnable;
-            public string XSOverlayFontChanger_KeyboardPath;
-            public int XSOverlayFontChanger_KeyboardScale;
-
-            public bool XSOverlayFontChanger_NotificationEnable;
-            public string XSOverlayFontChanger_NotificationPath;
-            public int XSOverlayFontChanger_NotificationScale;
-
-            public bool XSOverlayFontChanger_SettingsEnable;
-            public string XSOverlayFontChanger_SettingsPath;
-            public int XSOverlayFontChanger_SettingsScale;
-
-            public bool XSOverlayFontChanger_TooltipEnable;
-            public string XSOverlayFontChanger_TooltipPath;
-            public int XSOverlayFontChanger_TooltipScale;
-
-            public bool XSOverlayFontChanger_WindowSettingsEnable;
-            public string XSOverlayFontChanger_WindowSettingsPath;
-            public int XSOverlayFontChanger_WindowSettingsScale;
-
-            public bool XSOverlayFontChanger_WristEnable;
-            public string XSOverlayFontChanger_WristPath;
-            public int XSOverlayFontChanger_WristScale;
-        }
-        private static readonly System.Collections.Generic.Dictionary<int, string> fontList = [];
-        private static readonly System.Collections.Generic.Dictionary<int, string> fontName = [];
+        private static readonly Dictionary<int, string> fontList = [];
+        private static readonly Dictionary<int, string> fontName = [];
         private static string fontListJS;
 
         [HarmonyPatch(typeof(UpdateDateTime), "Awake")]
@@ -66,37 +40,37 @@ namespace xsoverlay_font_changer.Patches.Setting
         {
             if (!sender.Equals("systemui_settings")) return;
 
-            FontChangerSettings settings = new()
+            var settings = new Dictionary<string, object>
             {
                 // Keyboard
-                XSOverlayFontChanger_KeyboardEnable = XConfig.KeyboardEnable.Value,
-                XSOverlayFontChanger_KeyboardPath = XConfig.KeyboardPath.Value,
-                XSOverlayFontChanger_KeyboardScale = XConfig.KeyboardScale.Value,
+                ["XSOverlayFontChanger.KeyboardEnable"] = XConfig.KeyboardEnable.Value,
+                ["XSOverlayFontChanger.KeyboardPath"] = XConfig.KeyboardPath.Value,
+                ["XSOverlayFontChanger.KeyboardScale"] = XConfig.KeyboardScale.Value,
 
                 // Notification
-                XSOverlayFontChanger_NotificationEnable = XConfig.NotificationEnable.Value,
-                XSOverlayFontChanger_NotificationPath = XConfig.NotificationPath.Value,
-                XSOverlayFontChanger_NotificationScale = XConfig.NotificationScale.Value,
+                ["XSOverlayFontChanger.NotificationEnable"] = XConfig.NotificationEnable.Value,
+                ["XSOverlayFontChanger.NotificationPath"] = XConfig.NotificationPath.Value,
+                ["XSOverlayFontChanger.NotificationScale"] = XConfig.NotificationScale.Value,
 
                 // Settings
-                XSOverlayFontChanger_SettingsEnable = XConfig.SettingsEnable.Value,
-                XSOverlayFontChanger_SettingsPath = XConfig.SettingsPath.Value,
-                XSOverlayFontChanger_SettingsScale = XConfig.SettingsScale.Value,
+                ["XSOverlayFontChanger.SettingsEnable"] = XConfig.SettingsEnable.Value,
+                ["XSOverlayFontChanger.SettingsPath"] = XConfig.SettingsPath.Value,
+                ["XSOverlayFontChanger.SettingsScale"] = XConfig.SettingsScale.Value,
 
                 // Tooltip
-                XSOverlayFontChanger_TooltipEnable = XConfig.TooltipEnable.Value,
-                XSOverlayFontChanger_TooltipPath = XConfig.TooltipPath.Value,
-                XSOverlayFontChanger_TooltipScale = XConfig.TooltipScale.Value,
+                ["XSOverlayFontChanger.TooltipEnable"] = XConfig.TooltipEnable.Value,
+                ["XSOverlayFontChanger.TooltipPath"] = XConfig.TooltipPath.Value,
+                ["XSOverlayFontChanger.TooltipScale"] = XConfig.TooltipScale.Value,
 
                 // Window Settings
-                XSOverlayFontChanger_WindowSettingsEnable = XConfig.WindowSettingsEnable.Value,
-                XSOverlayFontChanger_WindowSettingsPath = XConfig.WindowSettingsPath.Value,
-                XSOverlayFontChanger_WindowSettingsScale = XConfig.WindowSettingsScale.Value,
+                ["XSOverlayFontChanger.WindowSettingsEnable"] = XConfig.WindowSettingsEnable.Value,
+                ["XSOverlayFontChanger.WindowSettingsPath"] = XConfig.WindowSettingsPath.Value,
+                ["XSOverlayFontChanger.WindowSettingsScale"] = XConfig.WindowSettingsScale.Value,
 
                 // Wrist
-                XSOverlayFontChanger_WristEnable = XConfig.WristEnable.Value,
-                XSOverlayFontChanger_WristPath = XConfig.WristPath.Value,
-                XSOverlayFontChanger_WristScale = XConfig.WristScale.Value
+                ["XSOverlayFontChanger.WristEnable"] = XConfig.WristEnable.Value,
+                ["XSOverlayFontChanger.WristPath"] = XConfig.WristPath.Value,
+                ["XSOverlayFontChanger.WristScale"] = XConfig.WristScale.Value
             };
 
             var data = JsonUtility.ToJson(settings);
@@ -117,7 +91,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.KeyboardPath":
                     XConfig.KeyboardPath.Value = fontList[int.Parse(value)];
                     break;
-                case "XSOverlayFontChanger.KeyboardSize":
+                case "XSOverlayFontChanger.KeyboardScale":
                     XConfig.KeyboardScale.Value = int.Parse(value);
                     break;
 
@@ -128,7 +102,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.NotificationPath":
                     XConfig.NotificationPath.Value = fontList[int.Parse(value)];
                     break;
-                case "XSOverlayFontChanger.NotificationSize":
+                case "XSOverlayFontChanger.NotificationScale":
                     XConfig.NotificationScale.Value = int.Parse(value);
                     break;
 
@@ -139,7 +113,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.SettingsPath":
                     XConfig.SettingsPath.Value = fontList[int.Parse(value)];
                     break;
-                case "XSOverlayFontChanger.SettingsSize":
+                case "XSOverlayFontChanger.SettingsScale":
                     XConfig.SettingsScale.Value = int.Parse(value);
                     break;
 
@@ -150,7 +124,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.TooltipPath":
                     XConfig.TooltipPath.Value = fontList[int.Parse(value)];
                     break;
-                case "XSOverlayFontChanger.TooltipSize":
+                case "XSOverlayFontChanger.TooltipScale":
                     XConfig.TooltipScale.Value = int.Parse(value);
                     break;
 
@@ -161,7 +135,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.WindowSettingsPath":
                     XConfig.WindowSettingsPath.Value = fontList[int.Parse(value)];
                     break;
-                case "XSOverlayFontChanger.WindowSettingsSize":
+                case "XSOverlayFontChanger.WindowSettingsScale":
                     XConfig.WindowSettingsScale.Value = int.Parse(value);
                     break;
 
@@ -172,7 +146,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.WristPath":
                     XConfig.WristPath.Value = fontList[int.Parse(value)];
                     break;
-                case "XSOverlayFontChanger.WristSize":
+                case "XSOverlayFontChanger.WristScale":
                     XConfig.WristScale.Value = int.Parse(value);
                     break;
 
