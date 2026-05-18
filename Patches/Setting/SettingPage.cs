@@ -13,9 +13,8 @@ namespace xsoverlay_font_changer.Patches.Setting
 {
     internal class SettingPage
     {
-        private static readonly Dictionary<int, string> fontList = [];
-        private static readonly Dictionary<int, string> fontName = [];
-        private static string fontListJS;
+        private static readonly Dictionary<int, string> FontNameById = [];
+        private static string FontArrayJS;
 
         [HarmonyPatch(typeof(UpdateDateTime), "Awake")]
         [HarmonyPostfix]
@@ -89,7 +88,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.KeyboardEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.KeyboardPath":
-                    XConfig.KeyboardPath.Value = fontList[int.Parse(value)];
+                    XConfig.KeyboardPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.KeyboardScale":
                     XConfig.KeyboardScale.Value = int.Parse(value);
@@ -100,7 +99,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.NotificationEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.NotificationPath":
-                    XConfig.NotificationPath.Value = fontList[int.Parse(value)];
+                    XConfig.NotificationPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.NotificationScale":
                     XConfig.NotificationScale.Value = int.Parse(value);
@@ -111,7 +110,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.SettingsEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.SettingsPath":
-                    XConfig.SettingsPath.Value = fontList[int.Parse(value)];
+                    XConfig.SettingsPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.SettingsScale":
                     XConfig.SettingsScale.Value = int.Parse(value);
@@ -122,7 +121,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.TooltipEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.TooltipPath":
-                    XConfig.TooltipPath.Value = fontList[int.Parse(value)];
+                    XConfig.TooltipPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.TooltipScale":
                     XConfig.TooltipScale.Value = int.Parse(value);
@@ -133,7 +132,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.WindowSettingsEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.WindowSettingsPath":
-                    XConfig.WindowSettingsPath.Value = fontList[int.Parse(value)];
+                    XConfig.WindowSettingsPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.WindowSettingsScale":
                     XConfig.WindowSettingsScale.Value = int.Parse(value);
@@ -144,7 +143,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.WristEnable.Value = bool.Parse(value);
                     break;
                 case "XSOverlayFontChanger.WristPath":
-                    XConfig.WristPath.Value = fontList[int.Parse(value)];
+                    XConfig.WristPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.WristScale":
                     XConfig.WristScale.Value = int.Parse(value);
@@ -175,7 +174,7 @@ namespace xsoverlay_font_changer.Patches.Setting
             jsContent = jsContent.Replace("<<TooltipFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.TooltipPath.Value)));
             jsContent = jsContent.Replace("<<WindowSettingsFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.WindowSettingsPath.Value)));
             jsContent = jsContent.Replace("<<WristFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.WristPath.Value)));
-            jsContent = jsContent.Replace("<<FontList>>", fontListJS);
+            jsContent = jsContent.Replace("<<FontList>>", FontArrayJS);
 
             string jsCode = $"(function() {{ {jsContent} }})();";
 
@@ -247,8 +246,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                                 var escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
                                 entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
 
-                                try { fontList[index] = normalized; } catch { fontList.Add(index, normalized); }
-                                try { fontName[index] = displayName; } catch { fontName.Add(index, displayName); }
+                                try { FontNameById[index] = normalized; } catch { FontNameById.Add(index, normalized); }
                                 index++;
                             }
                         }
@@ -297,8 +295,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                                 var escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
                                 entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
 
-                                try { fontList[index] = normalized; } catch { fontList.Add(index, normalized); }
-                                try { fontName[index] = displayName; } catch { fontName.Add(index, displayName); }
+                                try { FontNameById[index] = normalized; } catch { FontNameById.Add(index, normalized); }
                                 index++;
                             }
                         }
@@ -315,7 +312,7 @@ namespace xsoverlay_font_changer.Patches.Setting
             }
 
             // Create final JS array string
-            fontListJS = string.Join(", ", entries);
+            FontArrayJS = string.Join(", ", entries);
         }
 
         private static string CleanRegistryFontName(string regName)

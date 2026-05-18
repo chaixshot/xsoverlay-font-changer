@@ -1,5 +1,5 @@
-if (window.XSOverlayFONTCHANGER_SETTING) return 'XSOverlayFONTCHANGER_SETTING already injected';
-window.XSOverlayFONTCHANGER_SETTING = true;
+if (window.XSOverlayFontChanger_Setting) return 'XSOverlayFontChanger_Setting already injected';
+window.XSOverlayFontChanger_Setting = true;
 
 function InjectKBOSCTab() {
     var scr = document.createElement('script');
@@ -186,4 +186,4 @@ function InjectKBOSCTab() {
 
 InjectKBOSCTab()
 
-return 'XSOverlayFONTCHANGER_SETTING injected';
+return 'XSOverlayFontChanger_Setting injected';
