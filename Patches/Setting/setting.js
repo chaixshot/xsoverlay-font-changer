@@ -60,8 +60,10 @@ function InjectKBOSCTab() {
             },
             {
                 name: 'About', priority: 5, settings: [
+                    { type: Ui.ComponentType.Text, description: '<br>Version: <<Version>>'},
                     { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.CheckForUpdate', name: 'Check for Updates', description: 'Check for the latest version of XSOverlay Font Changer.'},
                     { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.OpenGitHub', name: 'Open GitHub Page', description: 'Visit the XSOverlay Font Changer GitHub page.'},
+                    { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.UpdateNotification', name: 'Update Notification', description: 'Receive update notification when update are available.', default: true },
                 ]
             }
         ];

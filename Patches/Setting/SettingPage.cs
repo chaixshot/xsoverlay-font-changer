@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 using Vuplex.WebView;
 using XSOverlay;
@@ -69,7 +70,10 @@ namespace xsoverlay_font_changer.Patches.Setting
                 // Wrist
                 ["XSOverlayFontChanger.WristEnable"] = XConfig.WristEnable.Value,
                 ["XSOverlayFontChanger.WristPath"] = XConfig.WristPath.Value,
-                ["XSOverlayFontChanger.WristScale"] = XConfig.WristScale.Value
+                ["XSOverlayFontChanger.WristScale"] = XConfig.WristScale.Value,
+
+                // About
+                ["XSOverlayFontChanger.UpdateNotification"] = XConfig.UpdateNotification.Value,
             };
 
             var data = JsonUtility.ToJson(settings);
@@ -157,10 +161,13 @@ namespace xsoverlay_font_changer.Patches.Setting
 
                 // About
                 case "XSOverlayFontChanger.CheckForUpdate":
-                    Utils.Update.CheckForUpdate();
+                    Task.Run(Utils.Update.CheckForUpdate);
                     break;
                 case "XSOverlayFontChanger.OpenGitHub":
-                    Utils.Update.OpenGitHubPage();
+                    Task.Run(Utils.Update.OpenGitHubPage);
+                    break;
+                case "XSOverlayFontChanger.UpdateNotification":
+                    XConfig.UpdateNotification.Value = bool.Parse(value);
                     break;
             }
 
@@ -181,6 +188,7 @@ namespace xsoverlay_font_changer.Patches.Setting
             jsContent = jsContent.Replace("<<WindowSettingsFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.WindowSettingsPath.Value)));
             jsContent = jsContent.Replace("<<WristFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.WristPath.Value)));
             jsContent = jsContent.Replace("<<FontList>>", FontArrayJS);
+            jsContent = jsContent.Replace("<<Version>>", MyPluginInfo.PLUGIN_VERSION);
 
             string jsCode = $"(function() {{ {jsContent} }})();";
 

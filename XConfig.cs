@@ -28,6 +28,8 @@ namespace xsoverlay_font_changer
         public static ConfigEntry<string> WristPath;
         public static ConfigEntry<float> WristScale;
 
+        public static ConfigEntry<bool> UpdateNotification;
+
         public static void AllConfig(ConfigFile cfg)
         {
             KeyboardEnable = cfg.Bind("Keyboard", "Enable", true, "Apply Keyboard font modification.");
@@ -53,6 +55,8 @@ namespace xsoverlay_font_changer
             WristEnable = cfg.Bind("Wrist", "Enable", true, "Apply Wrist font modification.");
             WristPath = cfg.Bind("Wrist", "Path", "C:/WINDOWS/Fonts/segoeui.ttf", "Wrist font name.");
             WristScale = cfg.Bind("Wrist", "Scale", 0f, "Wrist font scale.");
+
+            UpdateNotification = cfg.Bind("About", "UpdateNotifications", true, "Receive update notification when update are available.");
         }
     }
 }

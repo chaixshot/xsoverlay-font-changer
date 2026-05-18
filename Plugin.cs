@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using System.Threading.Tasks;
 using xsoverlay_font_changer.Patches.WebView;
 
 namespace xsoverlay_font_changer;
@@ -29,6 +30,9 @@ public class Plugin : BaseUnityPlugin
 
     private void Start()
     {
+        if (XConfig.UpdateNotification.Value)
+            Task.Run(Utils.Update.CheckForUpdate);
+
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is started!");
     }
 }
