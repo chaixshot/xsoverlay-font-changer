@@ -15,7 +15,7 @@
 - Compatible with [xsoverlay-keyboard-osc](https://github.com/nyakowint/xsoverlay-keyboard-osc) custom input canvas
 
 ## 🖥️ Screenshot
-<img src="./img/screenshot.jpeg" width="400"> <img src="./img/screenshot_patch.jpeg" width="400"> <img src="./img/keyboard.png" width="400"> <img src="./img/keyboard_patch.png" width="400">
+<img src="./img/screenshot_1.jpeg" width="800"> <img src="./img/screenshot_2.jpeg" width="400"> <img src="./img/screenshot_3.jpeg" width="400">
 
 ## ⛏️ Installation
 1. [Follow the BepInEx install guide](https://github.com/BepInEx/BepInEx/wiki/Installation) (BepInEx_win_x64) to [Steam]/steamapps/common/[XSOverlay].
