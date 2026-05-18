@@ -59,10 +59,10 @@ namespace xsoverlay_font_changer.Patches.WebView
             }
         }
 
-        private static void RegisterPatch(OverlayWebView wv, ConfigEntry<bool> enable, ConfigEntry<string> path, ConfigEntry<int> scale, string cssClasses)
+        private static void RegisterPatch(OverlayWebView wv, ConfigEntry<bool> enable, ConfigEntry<string> path, ConfigEntry<float> scale, string cssClasses)
         {
             // Get scale adjustment based on CSS class to ensure consistent visual size across different UI elements
-            static int GetScaleAdjustment(string css) =>
+            static float GetScaleAdjustment(string css) =>
                 css switch
                 {
                     ".clock" => 20,

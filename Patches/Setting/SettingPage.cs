@@ -91,7 +91,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.KeyboardPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.KeyboardScale":
-                    XConfig.KeyboardScale.Value = int.Parse(value);
+                    XConfig.KeyboardScale.Value = float.Parse(value);
                     break;
 
                 // Notification
@@ -102,7 +102,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.NotificationPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.NotificationScale":
-                    XConfig.NotificationScale.Value = int.Parse(value);
+                    XConfig.NotificationScale.Value = float.Parse(value);
                     break;
                 case "XSOverlayFontChanger.NotificationTestSmall":
                     NotificationHandler.Instance.CreateSmallTestNotification();
@@ -119,7 +119,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.SettingsPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.SettingsScale":
-                    XConfig.SettingsScale.Value = int.Parse(value);
+                    XConfig.SettingsScale.Value = float.Parse(value);
                     break;
 
                 // Tooltip
@@ -130,7 +130,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.TooltipPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.TooltipScale":
-                    XConfig.TooltipScale.Value = int.Parse(value);
+                    XConfig.TooltipScale.Value = float.Parse(value);
                     break;
 
                 // Window Settings
@@ -141,7 +141,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.WindowSettingsPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.WindowSettingsScale":
-                    XConfig.WindowSettingsScale.Value = int.Parse(value);
+                    XConfig.WindowSettingsScale.Value = float.Parse(value);
                     break;
 
                 // Wrist
@@ -152,7 +152,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                     XConfig.WristPath.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.WristScale":
-                    XConfig.WristScale.Value = int.Parse(value);
+                    XConfig.WristScale.Value = float.Parse(value);
                     break;
 
                 // About

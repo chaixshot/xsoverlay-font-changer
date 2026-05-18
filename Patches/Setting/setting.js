@@ -18,14 +18,14 @@ function InjectKBOSCTab() {
                 name: 'Keyboard', priority: 1, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.KeyboardEnable', name: 'Enable', description: 'Apply Keyboard font modification.', default: true },
                     { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.KeyboardPath', name: 'Font', description: 'Keyboard font name.', default: '<<KeyboardFont>>', options: [<<FontList>>] },
-                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.KeyboardScale', name: 'Scale', description: 'Keyboard font scale.', default: 0, options: [-10, 10, 1], unit: '%' },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.KeyboardScale', name: 'Scale', description: 'Keyboard font scale.', default: 0.0, options: [-5.0, 5.0, 0.5], unit: '%' },
                 ]
             },
             {
                 name: 'Notification', priority: 2, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.NotificationEnable', name: 'Enable', description: 'Apply Notification font modification.', default: true },
                     { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.NotificationPath', name: 'Font', description: 'Notification font name.', default: '<<NotificationFont>>', options: [<<FontList>>] },
-                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.NotificationScale', name: 'Scale', description: 'Notification font scale.', default: 0, options: [-10, 10, 1], unit: '%' },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.NotificationScale', name: 'Scale', description: 'Notification font scale.', default: 0.0, options: [-5.0, 5.0, 0.5], unit: '%' },
                     { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.NotificationTestSmall', name: 'Test Small'},
                     { type: Ui.ComponentType.Button, id: 'XSOverlayFontChanger.NotificationTestLarge', name: 'Test Large'},
                 ]
@@ -34,28 +34,28 @@ function InjectKBOSCTab() {
                 name: 'Settings', priority: 3, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.SettingsEnable', name: 'Enable', description: 'Apply Settings font modification.', default: true },
                     { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.SettingsPath', name: 'Font', description: 'Settings font name.', default: '<<SettingsFont>>', options: [<<FontList>>] },
-                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.SettingsScale', name: 'Scale', description: 'Settings font scale.', default: 0, options: [-10, 10, 1], unit: '%' },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.SettingsScale', name: 'Scale', description: 'Settings font scale.', default: 0.0, options: [-5.0, 5.0, 0.5], unit: '%' },
                 ]
             },
             {
                 name: 'Tooltip', priority: 4, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.TooltipEnable', name: 'Enable', description: 'Apply Tooltip font modification.', default: true },
                     { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.TooltipPath', name: 'Font', description: 'Tooltip font name.', default: '<<TooltipFont>>', options: [<<FontList>>] },
-                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.TooltipScale', name: 'Scale', description: 'Tooltip font scale.', default: 0, options: [-10, 10, 1], unit: '%' },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.TooltipScale', name: 'Scale', description: 'Tooltip font scale.', default: 0.0, options: [-5.0, 5.0, 0.5], unit: '%' },
                 ]
             },
             {
                 name: 'WindowSettings', priority: 5, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.WindowSettingsEnable', name: 'Enable', description: 'Apply Window Overlay modificationpatching.', default: true },
                     { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.WindowSettingsPath', name: 'Font', description: 'Window Overlay font name.', default: '<<WindowSettingsFont>>', options: [<<FontList>>] },
-                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.WindowSettingsScale', name: 'Scale', description: 'Window Overlay font scale.', default: 0, options: [-10, 10, 1], unit: '%' },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.WindowSettingsScale', name: 'Scale', description: 'Window Overlay font scale.', default: 0.0, options: [-5.0, 5.0, 0.5], unit: '%' },
                 ]
             },
             {
                 name: 'Wrist', priority: 6, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.WristEnable', name: 'Enable', description: 'Apply Wrist font modification.', default: true },
                     { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.WristPath', name: 'Font', description: 'Wrist font name.', default: '<<WristFont>>', options: [<<FontList>>] },
-                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.WristScale', name: 'Scale', description: 'Wrist font scale.', default: 0, options: [-10, 10, 1], unit: '%' },
+                    { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.WristScale', name: 'Scale', description: 'Wrist font scale.', default: 0.0, options: [-5.0, 5.0, 0.5], unit: '%' },
                 ]
             },
             {

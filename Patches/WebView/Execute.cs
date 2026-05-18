@@ -6,7 +6,7 @@ namespace xsoverlay_font_changer.Patches.WebView
 {
     internal class Execute
     {
-        public static void WaitForPageLoaded(OverlayWebView wv, string fontPath, int fontScale, string cssClass)
+        public static void WaitForPageLoaded(OverlayWebView wv, string fontPath, float fontScale, string cssClass)
         {
             // Listen for WebView loaded
             void handler(object sender, ProgressChangedEventArgs args)
@@ -23,7 +23,7 @@ namespace xsoverlay_font_changer.Patches.WebView
             wv._webView.WebView.LoadProgressChanged += handler;
         }
 
-        public static void ApplyHtmlStyle(OverlayWebView wv, string fontPath, int fontScale, string cssClass)
+        public static void ApplyHtmlStyle(OverlayWebView wv, string fontPath, float fontScale, string cssClass)
         {
             FileInfo fontFile = new(fontPath);
 
