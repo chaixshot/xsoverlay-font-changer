@@ -13,7 +13,7 @@ namespace xsoverlay_font_changer.Patches
     [HarmonyPatch(typeof(Overlay_Manager))]
     internal class PatchKeyboard
     {
-        private static bool IsPatched = false;
+        private static bool IsKeyboardExist = false;
         private static Overlay_Manager KeyboardOverlay;
         private static readonly Dictionary<int, (TMP_FontAsset fontAsset, float fontSize)> Original = [];
 
@@ -25,23 +25,24 @@ namespace xsoverlay_font_changer.Patches
 
             XConfig.KeyboardEnable.SettingChanged += (_, _) =>
             {
-                if (IsEnabled())
-                    ApplyFontPatch(KeyboardOverlay);
-                else
-                    RestoreFontPatch(KeyboardOverlay);
+                if (IsKeyboardExist)
+                    if (IsEnabled())
+                        ApplyFontPatch(KeyboardOverlay);
+                    else
+                        RestoreFontPatch(KeyboardOverlay);
             };
 
             XConfig.KeyboardPath.SettingChanged += (_, _) =>
             {
-                if (IsEnabled())
-                    if (IsPatched)
+                if (IsKeyboardExist)
+                    if (IsEnabled())
                         ApplyFontPatch(KeyboardOverlay);
             };
 
             XConfig.KeyboardScale.SettingChanged += (_, _) =>
             {
-                if (IsEnabled())
-                    if (IsPatched)
+                if (IsKeyboardExist)
+                    if (IsEnabled())
                         ApplyFontPatch(KeyboardOverlay);
             };
         }
@@ -50,7 +51,7 @@ namespace xsoverlay_font_changer.Patches
         [HarmonyPostfix]
         public static void PatchFont(Overlay_Manager __instance)
         {
-            if (IsPatched) return;
+            if (IsKeyboardExist) return;
 
             KeyboardOverlay = __instance;
             KeyboardGlobalManager keyboardManager = KeyboardOverlay.Keyboard_Overlay.gameObject.GetComponentInChildren<KeyboardGlobalManager>(true);
@@ -64,15 +65,14 @@ namespace xsoverlay_font_changer.Patches
                         Original[textMesh.GetInstanceID()] = (textMesh.font, textMesh.fontSize);
 
                     // KeyboardOSC
-                    if (MyPluginInfo.IsKeyboardOscInstalled())
-                    {
-                        foreach (TextMeshProUGUI textMesh in GetKeyboardOscCanvas())
-                            Original[textMesh.GetInstanceID()] = (textMesh.font, textMesh.fontSize);
-                    }
+                    foreach (TextMeshProUGUI textMesh in GetKeyboardOscCanvas())
+                        Original[textMesh.GetInstanceID()] = (textMesh.font, textMesh.fontSize);
                 }
 
                 if (IsEnabled())
                     ApplyFontPatch(KeyboardOverlay);
+
+                IsKeyboardExist = true;
             }
         }
 
@@ -94,19 +94,14 @@ namespace xsoverlay_font_changer.Patches
                 }
 
                 // KeyboardOSC
-                if (MyPluginInfo.IsKeyboardOscInstalled())
+                foreach (TextMeshProUGUI textMesh in GetKeyboardOscCanvas())
                 {
-                    foreach (TextMeshProUGUI textMesh in GetKeyboardOscCanvas())
+                    if (Original.TryGetValue(textMesh.GetInstanceID(), out (TMP_FontAsset fontAsset, float fontSize) original))
                     {
-                        if (Original.TryGetValue(textMesh.GetInstanceID(), out (TMP_FontAsset fontAsset, float fontSize) original))
-                        {
-                            textMesh.font = fontAsset;
-                            textMesh.fontSize = original.fontSize + XConfig.KeyboardScale.Value;
-                        }
+                        textMesh.font = fontAsset;
+                        textMesh.fontSize = original.fontSize + XConfig.KeyboardScale.Value;
                     }
                 }
-
-                IsPatched = true;
             }
             else
                 Plugin.Logger.LogError($"Keyboard - \"{XConfig.KeyboardPath.Value}\" does not exist.");
@@ -125,15 +120,12 @@ namespace xsoverlay_font_changer.Patches
             }
 
             // KeyboardOSC
-            if (MyPluginInfo.IsKeyboardOscInstalled())
+            foreach (TextMeshProUGUI textMesh in GetKeyboardOscCanvas())
             {
-                foreach (TextMeshProUGUI textMesh in GetKeyboardOscCanvas())
+                if (Original.TryGetValue(textMesh.GetInstanceID(), out (TMP_FontAsset fontAsset, float fontSize) original))
                 {
-                    if (Original.TryGetValue(textMesh.GetInstanceID(), out (TMP_FontAsset fontAsset, float fontSize) original))
-                    {
-                        textMesh.font = original.fontAsset;
-                        textMesh.fontSize = original.fontSize;
-                    }
+                    textMesh.font = original.fontAsset;
+                    textMesh.fontSize = original.fontSize;
                 }
             }
 
@@ -144,29 +136,29 @@ namespace xsoverlay_font_changer.Patches
         {
             if (Chainloader.PluginInfos.TryGetValue("nwnt.keyboardosc", out PluginInfo pluginInfo))
             {
-                object instance = pluginInfo.Instance;
-                if (instance == null) return [];
+                BaseUnityPlugin KeyboardOSC = pluginInfo.Instance;
 
-                // Use BindingFlags.Public since the field is public
-                // Include BindingFlags.Instance because it belongs to the plugin instance
-                FieldInfo field = instance.GetType().GetField("oscBarCanvas", BindingFlags.Public | BindingFlags.Instance);
-
-                if (field != null)
+                if (KeyboardOSC != null)
                 {
-                    // Get the value and cast it to GameObject
-                    GameObject oscBarCanvas = field.GetValue(instance) as GameObject;
+                    // Use BindingFlags.Public since the field is public
+                    // Include BindingFlags.Instance because it belongs to the plugin KeyboardOSC
+                    FieldInfo field = KeyboardOSC.GetType().GetField("oscBarCanvas", BindingFlags.Public | BindingFlags.Instance);
 
-                    if (oscBarCanvas != null)
+                    if (field != null)
                     {
-                        Plugin.Logger.LogInfo("Successfully found oscBarCanvas!");
+                        // Get the value and cast it to GameObject
+                        GameObject oscBarCanvas = field.GetValue(KeyboardOSC) as GameObject;
 
-                        return oscBarCanvas.GetComponentsInChildren<TextMeshProUGUI>(true);
+                        if (oscBarCanvas != null)
+                        {
+                            return oscBarCanvas.GetComponentsInChildren<TextMeshProUGUI>(true);
+                        }
+                        else
+                            Plugin.Logger.LogWarning("oscBarCanvas field found, but it is currently null.");
                     }
                     else
-                        Plugin.Logger.LogWarning("oscBarCanvas field found, but it is currently null.");
+                        Plugin.Logger.LogError("Could not find a field named 'oscBarCanvas' in the target mod.");
                 }
-                else
-                    Plugin.Logger.LogError("Could not find a field named 'oscBarCanvas' in the target mod.");
             }
 
             return [];
