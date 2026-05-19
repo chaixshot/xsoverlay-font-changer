@@ -1,5 +1,6 @@
 ﻿using BepInEx.Configuration;
 using HarmonyLib;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using XSOverlay;
@@ -33,56 +34,72 @@ namespace xsoverlay_font_changer.Patches.WebView
                     break;
 
                 case OverlayWebView.UserInterfacePaths.Wrist:
-                    RegisterPatch(_wv, XConfig.WristEnable, XConfig.WristPath, XConfig.WristScale, ".media-widget-track, .media-widget-artist, .performance-bar-text-name, .performance-bar-text-extra, .performance-bar-text-percentage");
-                    RegisterPatch(_wv, XConfig.WristEnable, XConfig.WristPath, XConfig.WristScale, ".clock");
-                    RegisterPatch(_wv, XConfig.WristEnable, XConfig.WristPath, XConfig.WristScale, ".date");
-                    RegisterPatch(_wv, XConfig.WristEnable, XConfig.WristPath, XConfig.WristScale, ".time-in-vr");
+                    Dictionary<string, float> wristCssAdjustments = new()
+                    {
+                        { ".media-widget-track, .media-widget-artist, .performance-bar-text-name, .performance-bar-text-extra, .performance-bar-text-percentage", 0f },
+                        { ".clock", 20f },
+                        { ".date", 8f },
+                        { ".time-in-vr", 2f }
+                    };
+                    RegisterPatch(_wv, XConfig.WristEnable, XConfig.WristPath, XConfig.WristScale, wristCssAdjustments);
                     break;
                 // Note: The wrist overlay has separate font size settings for the clock, date, and time-in-VR elements to ensure they remain legible and appropriately sized regardless of the overall wrist font scale.
                 // This is necessary because these elements are often smaller and more detailed than other wrist UI components, so they require different scaling to maintain readability and visual consistency.
-                //
+
                 case OverlayWebView.UserInterfacePaths.Settings:
-                    RegisterPatch(_wv, XConfig.SettingsEnable, XConfig.SettingsPath, XConfig.SettingsScale, ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre, .description-text, .button-font-text-basic, .option, .slider-tooltips");
+                    Dictionary<string, float> settingsCssAdjustments = new()
+                    {
+                        { ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre, .description-text, .button-font-text-basic, .option, .slider-tooltips", 0f }
+                    };
+                    RegisterPatch(_wv, XConfig.SettingsEnable, XConfig.SettingsPath, XConfig.SettingsScale, settingsCssAdjustments);
                     break;
 
                 case OverlayWebView.UserInterfacePaths.WindowSettings:
-                    RegisterPatch(_wv, XConfig.WindowSettingsEnable, XConfig.WindowSettingsPath, XConfig.WindowSettingsScale, ".whitespace-pre, .option, .item-list-header, .item-list-appName, .item-list-title");
+                    Dictionary<string, float> windowSettingsCssAdjustments = new()
+                    {
+                        { ".whitespace-pre, .option, .item-list-header, .item-list-appName, .item-list-title", 0f }
+                    };
+                    RegisterPatch(_wv, XConfig.WindowSettingsEnable, XConfig.WindowSettingsPath, XConfig.WindowSettingsScale, windowSettingsCssAdjustments);
                     break;
 
                 case OverlayWebView.UserInterfacePaths.Tooltip:
-                    RegisterPatch(_wv, XConfig.TooltipEnable, XConfig.TooltipPath, XConfig.TooltipScale, ".tooltip-text");
+                    RegisterPatch(_wv, XConfig.TooltipEnable, XConfig.TooltipPath, XConfig.TooltipScale, new Dictionary<string, float> { { ".tooltip-text", 0f } });
                     break;
 
                 case OverlayWebView.UserInterfacePaths.Notification:
-                    RegisterPatch(_wv, XConfig.NotificationEnable, XConfig.NotificationPath, XConfig.NotificationScale, "*");
+                    RegisterPatch(_wv, XConfig.NotificationEnable, XConfig.NotificationPath, XConfig.NotificationScale, new Dictionary<string, float> { { "*", 0f } });
                     break;
             }
         }
 
-        private static void RegisterPatch(OverlayWebView wv, ConfigEntry<bool> enable, ConfigEntry<string> path, ConfigEntry<float> scale, string cssClasses)
+        private static void RegisterPatch(OverlayWebView wv, ConfigEntry<bool> enable, ConfigEntry<string> path, ConfigEntry<float> scale, Dictionary<string, float> cssClass)
         {
-            // Get scale adjustment based on CSS class to ensure consistent visual size across different UI elements
-            static float GetScaleAdjustment(string css) =>
-                css switch
-                {
-                    ".clock" => 20,
-                    ".date" => 8,
-                    ".time-in-vr" => 2,
-                    _ => 0
-                };
-
-
             // Apply font style if enabled on initial load
             if (enable.Value)
-                Execute.WaitForPageLoaded(wv, path.Value, scale.Value + GetScaleAdjustment(cssClasses), cssClasses);
+            {
+                foreach (KeyValuePair<string, float> entry in cssClass)
+                {
+                    Execute.WaitForPageLoaded(wv, path.Value, scale.Value + entry.Value, entry.Key);
+                }
+            }
 
             // Toggle enabling/disabling font style
             enable.SettingChanged += (s, e) =>
             {
                 if (enable.Value)
-                    Execute.ApplyHtmlStyle(wv, path.Value, scale.Value + GetScaleAdjustment(cssClasses), cssClasses);
+                {
+                    foreach (KeyValuePair<string, float> entry in cssClass)
+                    {
+                        Execute.ApplyHtmlStyle(wv, path.Value, scale.Value + entry.Value, entry.Key);
+                    }
+                }
                 else
-                    Execute.UndoHtmlStyle(wv, cssClasses);
+                {
+                    foreach (KeyValuePair<string, float> entry in cssClass)
+                    {
+                        Execute.UndoHtmlStyle(wv, entry.Key);
+                    }
+                }
             };
 
             // Change font style
@@ -90,9 +107,10 @@ namespace xsoverlay_font_changer.Patches.WebView
             {
                 if (enable.Value)
                 {
-                    if (GetScaleAdjustment(cssClasses).Equals(0))
-                        Execute.UndoHtmlStyle(wv, cssClasses);
-                    Execute.ApplyHtmlStyle(wv, path.Value, scale.Value + GetScaleAdjustment(cssClasses), cssClasses);
+                    foreach (KeyValuePair<string, float> entry in cssClass)
+                    {
+                        Execute.ApplyHtmlStyle(wv, path.Value, scale.Value + entry.Value, entry.Key);
+                    }
                 }
             };
 
@@ -103,11 +121,15 @@ namespace xsoverlay_font_changer.Patches.WebView
                 if (enable.Value)
                 {
                     debounceCts?.Cancel();
-                    debounceCts?.Dispose();
+                    debounceCts?.Dispose(); // Dispose the old CTS
                     debounceCts = new CancellationTokenSource();
 
                     await Task.Delay(500, debounceCts.Token);
-                    Execute.ApplyHtmlStyle(wv, path.Value, scale.Value + GetScaleAdjustment(cssClasses), cssClasses);
+                    // If we reach here, the delay completed without cancellation
+                    foreach (KeyValuePair<string, float> entry in cssClass)
+                    {
+                        Execute.ApplyHtmlStyle(wv, path.Value, scale.Value + entry.Value, entry.Key);
+                    }
                 }
             };
         }

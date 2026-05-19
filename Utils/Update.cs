@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,13 +15,12 @@ namespace xsoverlay_font_changer.Utils
 
         private static async Task<string> GetLatestVersionAsync()
         {
-            using var client = new HttpClient()
+            using (HttpClient client = new())
             {
-                Timeout = TimeSpan.FromSeconds(3)
-            };
+                client.Timeout = TimeSpan.FromSeconds(3);
             client.DefaultRequestHeaders.UserAgent.ParseAdd("xsoverlay-font-changer");
-            var response = await client.GetStringAsync(GitHubLatestReleaseApi);
-            var responseData = JObject.Parse(response);
+                string response = await client.GetStringAsync(GitHubLatestReleaseApi);
+                JObject responseData = JObject.Parse(response);
 
             string latestVersionRaw = responseData["tag_name"]?.ToString() ?? string.Empty;
             string latestVersion = string.IsNullOrEmpty(latestVersionRaw)
@@ -29,6 +28,7 @@ namespace xsoverlay_font_changer.Utils
                 : Regex.Replace(latestVersionRaw, "[^0-9.]", string.Empty);
 
             return latestVersion;
+            }
         }
 
         public static async void CheckForUpdate()

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +40,7 @@ namespace xsoverlay_font_changer.Patches.Setting
         {
             if (!sender.Equals("systemui_settings")) return;
 
-            var settings = new Dictionary<string, object>
+            Dictionary<string, object> settings = new()
             {
                 // Keyboard
                 ["XSOverlayFontChanger.KeyboardEnable"] = XConfig.KeyboardEnable.Value,
@@ -76,7 +76,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                 ["XSOverlayFontChanger.UpdateNotification"] = XConfig.UpdateNotification.Value,
             };
 
-            var data = JsonUtility.ToJson(settings);
+            string data = JsonUtility.ToJson(settings);
             ServerClientBridge.Instance.Api.SendMessage("UpdateSettings", data, null, sender);
         }
 
@@ -207,61 +207,67 @@ namespace xsoverlay_font_changer.Patches.Setting
 
         private static void PrepairSystemFontList()
         {
-            var fontsDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
-            var allowedExt = new HashSet<string>([".ttf", ".otf", ".ttc", ".woff", ".woff2"], StringComparer.OrdinalIgnoreCase);
-            var seenFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            var seenFamilies = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            var entries = new List<string>();
+            string fontsDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
+            HashSet<string> allowedExt = new([".ttf", ".otf", ".ttc", ".woff", ".woff2"], StringComparer.OrdinalIgnoreCase);
+            HashSet<string> seenFiles = new(StringComparer.OrdinalIgnoreCase);
+            HashSet<string> seenFamilies = new(StringComparer.OrdinalIgnoreCase);
+            List<string> entries = [];
             int index = 0;
 
             // Read registry-installed fonts (canonical)
             try
             {
-                using var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts");
+                using (Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"))
                 if (regKey != null)
                 {
-                    foreach (var valName in regKey.GetValueNames())
+                    foreach (string valName in regKey.GetValueNames())
                     {
-                        var val = regKey.GetValue(valName) as string;
+                        string val = regKey.GetValue(valName) as string;
                         if (string.IsNullOrWhiteSpace(val))
                             continue;
 
-                        var path = val;
+                        string path = val;
                         if (!Path.IsPathRooted(path))
                             path = Path.Combine(fontsDir, path);
 
                         if (!File.Exists(path))
                             continue;
 
-                        var ext = Path.GetExtension(path);
+                        string ext = Path.GetExtension(path);
                         if (!allowedExt.Contains(ext))
                             continue;
 
-                        var normalized = Path.GetFullPath(path).Replace('\\', '/');
+                        string normalized = Path.GetFullPath(path).Replace('\\', '/');
                         if (!seenFiles.Add(normalized))
                             continue;
 
                         try
                         {
-                            using var pfc = new System.Drawing.Text.PrivateFontCollection();
+                            using (System.Drawing.Text.PrivateFontCollection pfc = new())
+                            {
                             pfc.AddFontFile(normalized);
 
-                            foreach (var fam in pfc.Families)
+                            foreach (System.Drawing.FontFamily fam in pfc.Families)
                             {
                                 // Only include families that provide a Regular face
                                 if (!fam.IsStyleAvailable(System.Drawing.FontStyle.Regular))
+                                {
                                     continue;
+                                }
 
-                                var familyName = fam.Name;
+                                string familyName = fam.Name;
                                 if (!seenFamilies.Add(familyName))
+                                {
                                     continue;
+                                }
 
-                                var displayName = familyName;
-                                var escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
+                                string displayName = familyName;
+                                string escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
                                 entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
 
                                 try { FontNameById[index] = normalized; } catch { FontNameById.Add(index, normalized); }
                                 index++;
+                            }
                             }
                         }
                         catch
@@ -279,38 +285,42 @@ namespace xsoverlay_font_changer.Patches.Setting
             // Scan Fonts folder and add files not already seen
             if (Directory.Exists(fontsDir))
             {
-                foreach (var file in Directory.GetFiles(fontsDir))
+                foreach (string file in Directory.GetFiles(fontsDir))
                 {
                     try
                     {
-                        var ext = Path.GetExtension(file);
+                        string ext = Path.GetExtension(file);
                         if (!allowedExt.Contains(ext))
                             continue;
 
-                        var normalized = Path.GetFullPath(file).Replace('\\', '/');
+                        string normalized = Path.GetFullPath(file).Replace('\\', '/');
                         if (!seenFiles.Add(normalized))
                             continue;
 
                         try
                         {
-                            using var pfc = new System.Drawing.Text.PrivateFontCollection();
+                            using (System.Drawing.Text.PrivateFontCollection pfc = new())
+                            {
                             pfc.AddFontFile(normalized);
 
-                            foreach (var fam in pfc.Families)
+                            foreach (System.Drawing.FontFamily fam in pfc.Families)
                             {
                                 if (!fam.IsStyleAvailable(System.Drawing.FontStyle.Regular))
                                     continue;
 
-                                var familyName = fam.Name;
+                                string familyName = fam.Name;
                                 if (!seenFamilies.Add(familyName))
+                                {
                                     continue;
+                                }
 
-                                var displayName = familyName;
-                                var escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
+                                string displayName = familyName;
+                                string escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
                                 entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
 
                                 try { FontNameById[index] = normalized; } catch { FontNameById.Add(index, normalized); }
                                 index++;
+                            }
                             }
                         }
                         catch
@@ -335,8 +345,8 @@ namespace xsoverlay_font_changer.Patches.Setting
                 return null;
 
             // Remove trailing parenthesis like " (TrueType)", keep primary name
-            var idx = regName.IndexOf(" (", StringComparison.Ordinal);
-            var name = idx > 0 ? regName.Substring(0, idx) : regName;
+            int idx = regName.IndexOf(" (", StringComparison.Ordinal);
+            string name = idx > 0 ? regName.Substring(0, idx) : regName;
             return name.Trim();
         }
 
@@ -353,14 +363,16 @@ namespace xsoverlay_font_changer.Patches.Setting
 
             try
             {
-                using var pfc = new System.Drawing.Text.PrivateFontCollection();
+                using (System.Drawing.Text.PrivateFontCollection pfc = new())
+                {
                 pfc.AddFontFile(filePath);
-                var fams = pfc.Families;
+                System.Drawing.FontFamily[] fams = pfc.Families;
                 if (fams != null && fams.Length > 0)
                 {
-                    var name = fams[0].Name;
+                    string name = fams[0].Name;
                     if (!string.IsNullOrWhiteSpace(name))
                         return name;
+                }
                 }
             }
             catch
@@ -376,7 +388,7 @@ namespace xsoverlay_font_changer.Patches.Setting
             if (string.IsNullOrEmpty(displayName))
                 return string.Empty;
 
-            var encoded = System.Net.WebUtility.HtmlEncode(displayName);
+            string encoded = System.Net.WebUtility.HtmlEncode(displayName);
             return $"<font face=\"{encoded}\">{encoded}</font>";
         }
     }

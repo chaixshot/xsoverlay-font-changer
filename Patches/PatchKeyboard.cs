@@ -49,7 +49,7 @@ namespace xsoverlay_font_changer.Patches
                     {
                         debounceCts?.Cancel();
                         debounceCts?.Dispose();
-                        debounceCts = new CancellationTokenSource();
+                        debounceCts = new();
 
                         await Task.Delay(500, debounceCts.Token);
                         ApplyFontPatch(KeyboardOverlay);
