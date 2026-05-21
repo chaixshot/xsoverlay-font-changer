@@ -13,6 +13,7 @@
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
     <RootNamespace>xsoverlay_font_changer</RootNamespace>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
   </PropertyGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
