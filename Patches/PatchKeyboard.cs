@@ -1,11 +1,10 @@
 ﻿using BepInEx;
 using BepInEx.Bootstrap;
 using HarmonyLib;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using XSOverlay;
@@ -41,19 +40,21 @@ namespace xsoverlay_font_changer.Patches
                         ApplyFontPatch(KeyboardOverlay);
             };
 
-            CancellationTokenSource debounceCts = null;
-            XConfig.KeyboardScale.SettingChanged += async (_, _) =>
+            Coroutine debounceCoroutine = null;
+            XConfig.KeyboardScale.SettingChanged += (_, _) =>
             {
-                if (IsKeyboardExist)
-                    if (IsEnabled())
-                    {
-                        debounceCts?.Cancel();
-                        debounceCts?.Dispose();
-                        debounceCts = new();
+                if (IsKeyboardExist && IsEnabled())
+                {
+                    if (debounceCoroutine != null) Plugin.Instance.StopCoroutine(debounceCoroutine);
+                    debounceCoroutine = Plugin.Instance.StartCoroutine(ApplyWithDelay());
+                }
 
-                        await Task.Delay(500, debounceCts.Token);
-                        ApplyFontPatch(KeyboardOverlay);
-                    }
+                IEnumerator ApplyWithDelay()
+                {
+                    yield return new WaitForSecondsRealtime(0.5f);
+                    ApplyFontPatch(KeyboardOverlay);
+                    debounceCoroutine = null;
+                }
             };
         }
 
@@ -66,7 +67,7 @@ namespace xsoverlay_font_changer.Patches
             KeyboardOverlay = __instance;
             KeyboardGlobalManager keyboardManager = KeyboardOverlay.Keyboard_Overlay.gameObject.GetComponentInChildren<KeyboardGlobalManager>(true);
 
-            if (!keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
+            if (keyboardManager != null && keyboardManager.HasKeyboardBeenOpened)
             {
                 // Store original font and font size for each TextMeshProUGUI in the keyboard overlay
                 {

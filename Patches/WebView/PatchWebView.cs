@@ -1,8 +1,8 @@
-﻿using BepInEx.Configuration;
+﻿using System.Collections;
+using BepInEx.Configuration;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using UnityEngine;
 using XSOverlay;
 using XSOverlay.WebApp;
 
@@ -115,21 +115,23 @@ namespace xsoverlay_font_changer.Patches.WebView
             };
 
             //Change font scale with debouncing to prevent excessive updates
-            CancellationTokenSource debounceCts = null;
-            scale.SettingChanged += async (s, e) =>
+            Coroutine debounceCoroutine = null;
+            scale.SettingChanged += (s, e) =>
             {
                 if (enable.Value)
                 {
-                    debounceCts?.Cancel();
-                    debounceCts?.Dispose(); // Dispose the old CTS
-                    debounceCts = new CancellationTokenSource();
+                    if (debounceCoroutine != null) Plugin.Instance.StopCoroutine(debounceCoroutine);
+                    debounceCoroutine = Plugin.Instance.StartCoroutine(ApplyWithDelay());
+                }
 
-                    await Task.Delay(500, debounceCts.Token);
-                    // If we reach here, the delay completed without cancellation
+                IEnumerator ApplyWithDelay()
+                {
+                    yield return new WaitForSecondsRealtime(0.5f);
                     foreach (KeyValuePair<string, float> entry in cssClass)
                     {
                         Execute.ApplyHtmlStyle(wv, path.Value, scale.Value + entry.Value, entry.Key);
                     }
+                    debounceCoroutine = null;
                 }
             };
         }
