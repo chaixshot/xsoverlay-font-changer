@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -18,16 +18,16 @@ namespace xsoverlay_font_changer.Utils
             using (HttpClient client = new())
             {
                 client.Timeout = TimeSpan.FromSeconds(3);
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("xsoverlay-font-changer");
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("xsoverlay-font-changer");
                 string response = await client.GetStringAsync(GitHubLatestReleaseApi);
                 JObject responseData = JObject.Parse(response);
 
-            string latestVersionRaw = responseData["tag_name"]?.ToString() ?? string.Empty;
-            string latestVersion = string.IsNullOrEmpty(latestVersionRaw)
-                ? string.Empty
-                : Regex.Replace(latestVersionRaw, "[^0-9.]", string.Empty);
+                string latestVersionRaw = responseData["tag_name"]?.ToString() ?? string.Empty;
+                string latestVersion = string.IsNullOrEmpty(latestVersionRaw)
+                    ? string.Empty
+                    : Regex.Replace(latestVersionRaw, "[^0-9.]", string.Empty);
 
-            return latestVersion;
+                return latestVersion;
             }
         }
 
@@ -41,7 +41,7 @@ namespace xsoverlay_font_changer.Utils
             }
             catch (Exception ex)
             {
-                Notification.Send(MyPluginInfo.PLUGIN_NAME, $"Update Check Failed:\n\"{ex.Message}\"");
+                //Notification.Send(MyPluginInfo.PLUGIN_NAME, $"Update Check Failed:\n\"{ex.Message}\"");
                 return;
             }
 
