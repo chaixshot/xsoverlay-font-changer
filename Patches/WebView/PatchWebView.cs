@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using BepInEx.Configuration;
+﻿using BepInEx.Configuration;
 using HarmonyLib;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XSOverlay;
@@ -41,7 +41,7 @@ namespace xsoverlay_font_changer.Patches.WebView
                         { ".date", 8f },
                         { ".time-in-vr", 2f }
                     };
-                    RegisterPatch(_wv, XConfig.WristEnable, XConfig.WristPath, XConfig.WristScale, wristCssAdjustments);
+                    RegisterPatch(_wv, XConfig.WristEnable, XConfig.WristName, XConfig.WristScale, wristCssAdjustments);
                     break;
                 // Note: The wrist overlay has separate font size settings for the clock, date, and time-in-VR elements to ensure they remain legible and appropriately sized regardless of the overall wrist font scale.
                 // This is necessary because these elements are often smaller and more detailed than other wrist UI components, so they require different scaling to maintain readability and visual consistency.
@@ -51,7 +51,7 @@ namespace xsoverlay_font_changer.Patches.WebView
                     {
                         { ".side-bar-button-text, .page-container, .page-header-text, .page-section-text, .whitespace-pre, .description-text, .button-font-text-basic, .option, .slider-tooltips", 0f }
                     };
-                    RegisterPatch(_wv, XConfig.SettingsEnable, XConfig.SettingsPath, XConfig.SettingsScale, settingsCssAdjustments);
+                    RegisterPatch(_wv, XConfig.SettingsEnable, XConfig.SettingsName, XConfig.SettingsScale, settingsCssAdjustments);
                     break;
 
                 case OverlayWebView.UserInterfacePaths.WindowSettings:
@@ -59,15 +59,15 @@ namespace xsoverlay_font_changer.Patches.WebView
                     {
                         { ".whitespace-pre, .option, .item-list-header, .item-list-appName, .item-list-title", 0f }
                     };
-                    RegisterPatch(_wv, XConfig.WindowSettingsEnable, XConfig.WindowSettingsPath, XConfig.WindowSettingsScale, windowSettingsCssAdjustments);
+                    RegisterPatch(_wv, XConfig.WindowSettingsEnable, XConfig.WindowSettingsName, XConfig.WindowSettingsScale, windowSettingsCssAdjustments);
                     break;
 
                 case OverlayWebView.UserInterfacePaths.Tooltip:
-                    RegisterPatch(_wv, XConfig.TooltipEnable, XConfig.TooltipPath, XConfig.TooltipScale, new Dictionary<string, float> { { ".tooltip-text", 0f } });
+                    RegisterPatch(_wv, XConfig.TooltipEnable, XConfig.TooltipName, XConfig.TooltipScale, new Dictionary<string, float> { { ".tooltip-text", 0f } });
                     break;
 
                 case OverlayWebView.UserInterfacePaths.Notification:
-                    RegisterPatch(_wv, XConfig.NotificationEnable, XConfig.NotificationPath, XConfig.NotificationScale, new Dictionary<string, float> { { "*", 0f } });
+                    RegisterPatch(_wv, XConfig.NotificationEnable, XConfig.NotificationName, XConfig.NotificationScale, new Dictionary<string, float> { { "*", 0f } });
                     break;
             }
         }

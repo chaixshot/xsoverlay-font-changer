@@ -1,4 +1,4 @@
-﻿﻿using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,32 +44,32 @@ namespace xsoverlay_font_changer.Patches.Setting
             {
                 // Keyboard
                 ["XSOverlayFontChanger.KeyboardEnable"] = XConfig.KeyboardEnable.Value,
-                ["XSOverlayFontChanger.KeyboardPath"] = XConfig.KeyboardPath.Value,
+                ["XSOverlayFontChanger.KeyboardName"] = XConfig.KeyboardName.Value,
                 ["XSOverlayFontChanger.KeyboardScale"] = XConfig.KeyboardScale.Value,
 
                 // Notification
                 ["XSOverlayFontChanger.NotificationEnable"] = XConfig.NotificationEnable.Value,
-                ["XSOverlayFontChanger.NotificationPath"] = XConfig.NotificationPath.Value,
+                ["XSOverlayFontChanger.NotificationName"] = XConfig.NotificationName.Value,
                 ["XSOverlayFontChanger.NotificationScale"] = XConfig.NotificationScale.Value,
 
                 // Settings
                 ["XSOverlayFontChanger.SettingsEnable"] = XConfig.SettingsEnable.Value,
-                ["XSOverlayFontChanger.SettingsPath"] = XConfig.SettingsPath.Value,
+                ["XSOverlayFontChanger.SettingsName"] = XConfig.SettingsName.Value,
                 ["XSOverlayFontChanger.SettingsScale"] = XConfig.SettingsScale.Value,
 
                 // Tooltip
                 ["XSOverlayFontChanger.TooltipEnable"] = XConfig.TooltipEnable.Value,
-                ["XSOverlayFontChanger.TooltipPath"] = XConfig.TooltipPath.Value,
+                ["XSOverlayFontChanger.TooltipName"] = XConfig.TooltipName.Value,
                 ["XSOverlayFontChanger.TooltipScale"] = XConfig.TooltipScale.Value,
 
                 // Window Settings
                 ["XSOverlayFontChanger.WindowSettingsEnable"] = XConfig.WindowSettingsEnable.Value,
-                ["XSOverlayFontChanger.WindowSettingsPath"] = XConfig.WindowSettingsPath.Value,
+                ["XSOverlayFontChanger.WindowSettingsName"] = XConfig.WindowSettingsName.Value,
                 ["XSOverlayFontChanger.WindowSettingsScale"] = XConfig.WindowSettingsScale.Value,
 
                 // Wrist
                 ["XSOverlayFontChanger.WristEnable"] = XConfig.WristEnable.Value,
-                ["XSOverlayFontChanger.WristPath"] = XConfig.WristPath.Value,
+                ["XSOverlayFontChanger.WristName"] = XConfig.WristName.Value,
                 ["XSOverlayFontChanger.WristScale"] = XConfig.WristScale.Value,
 
                 // About
@@ -91,8 +91,8 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.KeyboardEnable":
                     XConfig.KeyboardEnable.Value = bool.Parse(value);
                     break;
-                case "XSOverlayFontChanger.KeyboardPath":
-                    XConfig.KeyboardPath.Value = FontNameById[int.Parse(value)];
+                case "XSOverlayFontChanger.KeyboardName":
+                    XConfig.KeyboardName.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.KeyboardScale":
                     XConfig.KeyboardScale.Value = float.Parse(value);
@@ -102,8 +102,8 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.NotificationEnable":
                     XConfig.NotificationEnable.Value = bool.Parse(value);
                     break;
-                case "XSOverlayFontChanger.NotificationPath":
-                    XConfig.NotificationPath.Value = FontNameById[int.Parse(value)];
+                case "XSOverlayFontChanger.NotificationName":
+                    XConfig.NotificationName.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.NotificationScale":
                     XConfig.NotificationScale.Value = float.Parse(value);
@@ -119,8 +119,8 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.SettingsEnable":
                     XConfig.SettingsEnable.Value = bool.Parse(value);
                     break;
-                case "XSOverlayFontChanger.SettingsPath":
-                    XConfig.SettingsPath.Value = FontNameById[int.Parse(value)];
+                case "XSOverlayFontChanger.SettingsName":
+                    XConfig.SettingsName.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.SettingsScale":
                     XConfig.SettingsScale.Value = float.Parse(value);
@@ -130,8 +130,8 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.TooltipEnable":
                     XConfig.TooltipEnable.Value = bool.Parse(value);
                     break;
-                case "XSOverlayFontChanger.TooltipPath":
-                    XConfig.TooltipPath.Value = FontNameById[int.Parse(value)];
+                case "XSOverlayFontChanger.TooltipName":
+                    XConfig.TooltipName.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.TooltipScale":
                     XConfig.TooltipScale.Value = float.Parse(value);
@@ -141,8 +141,8 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.WindowSettingsEnable":
                     XConfig.WindowSettingsEnable.Value = bool.Parse(value);
                     break;
-                case "XSOverlayFontChanger.WindowSettingsPath":
-                    XConfig.WindowSettingsPath.Value = FontNameById[int.Parse(value)];
+                case "XSOverlayFontChanger.WindowSettingsName":
+                    XConfig.WindowSettingsName.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.WindowSettingsScale":
                     XConfig.WindowSettingsScale.Value = float.Parse(value);
@@ -152,8 +152,8 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.WristEnable":
                     XConfig.WristEnable.Value = bool.Parse(value);
                     break;
-                case "XSOverlayFontChanger.WristPath":
-                    XConfig.WristPath.Value = FontNameById[int.Parse(value)];
+                case "XSOverlayFontChanger.WristName":
+                    XConfig.WristName.Value = FontNameById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.WristScale":
                     XConfig.WristScale.Value = float.Parse(value);
@@ -181,12 +181,12 @@ namespace xsoverlay_font_changer.Patches.Setting
             using StreamReader reader = new(stream);
             string jsContent = reader.ReadToEnd();
 
-            jsContent = jsContent.Replace("<<KeyboardFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.KeyboardPath.Value)));
-            jsContent = jsContent.Replace("<<NotificationFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.NotificationPath.Value)));
-            jsContent = jsContent.Replace("<<SettingsFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.SettingsPath.Value)));
-            jsContent = jsContent.Replace("<<TooltipFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.TooltipPath.Value)));
-            jsContent = jsContent.Replace("<<WindowSettingsFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.WindowSettingsPath.Value)));
-            jsContent = jsContent.Replace("<<WristFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.WristPath.Value)));
+            jsContent = jsContent.Replace("<<KeyboardFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.KeyboardName.Value)));
+            jsContent = jsContent.Replace("<<NotificationFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.NotificationName.Value)));
+            jsContent = jsContent.Replace("<<SettingsFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.SettingsName.Value)));
+            jsContent = jsContent.Replace("<<TooltipFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.TooltipName.Value)));
+            jsContent = jsContent.Replace("<<WindowSettingsFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.WindowSettingsName.Value)));
+            jsContent = jsContent.Replace("<<WristFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.WristName.Value)));
             jsContent = jsContent.Replace("<<FontList>>", FontArrayJS);
             jsContent = jsContent.Replace("<<Version>>", MyPluginInfo.PLUGIN_VERSION);
 
@@ -218,64 +218,64 @@ namespace xsoverlay_font_changer.Patches.Setting
             try
             {
                 using (Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"))
-                if (regKey != null)
-                {
-                    foreach (string valName in regKey.GetValueNames())
+                    if (regKey != null)
                     {
-                        string val = regKey.GetValue(valName) as string;
-                        if (string.IsNullOrWhiteSpace(val))
-                            continue;
-
-                        string path = val;
-                        if (!Path.IsPathRooted(path))
-                            path = Path.Combine(fontsDir, path);
-
-                        if (!File.Exists(path))
-                            continue;
-
-                        string ext = Path.GetExtension(path);
-                        if (!allowedExt.Contains(ext))
-                            continue;
-
-                        string normalized = Path.GetFullPath(path).Replace('\\', '/');
-                        if (!seenFiles.Add(normalized))
-                            continue;
-
-                        try
+                        foreach (string valName in regKey.GetValueNames())
                         {
-                            using (System.Drawing.Text.PrivateFontCollection pfc = new())
+                            string val = regKey.GetValue(valName) as string;
+                            if (string.IsNullOrWhiteSpace(val))
+                                continue;
+
+                            string path = val;
+                            if (!Path.IsPathRooted(path))
+                                path = Path.Combine(fontsDir, path);
+
+                            if (!File.Exists(path))
+                                continue;
+
+                            string ext = Path.GetExtension(path);
+                            if (!allowedExt.Contains(ext))
+                                continue;
+
+                            string normalized = Path.GetFullPath(path).Replace('\\', '/');
+                            if (!seenFiles.Add(normalized))
+                                continue;
+
+                            try
                             {
-                            pfc.AddFontFile(normalized);
+                                using (System.Drawing.Text.PrivateFontCollection pfc = new())
+                                {
+                                    pfc.AddFontFile(normalized);
 
-                            foreach (System.Drawing.FontFamily fam in pfc.Families)
+                                    foreach (System.Drawing.FontFamily fam in pfc.Families)
+                                    {
+                                        // Only include families that provide a Regular face
+                                        if (!fam.IsStyleAvailable(System.Drawing.FontStyle.Regular))
+                                        {
+                                            continue;
+                                        }
+
+                                        string familyName = fam.Name;
+                                        if (!seenFamilies.Add(familyName))
+                                        {
+                                            continue;
+                                        }
+
+                                        string displayName = familyName;
+                                        string escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
+                                        entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
+
+                                        try { FontNameById[index] = familyName; } catch { FontNameById.Add(index, familyName); }
+                                        index++;
+                                    }
+                                }
+                            }
+                            catch
                             {
-                                // Only include families that provide a Regular face
-                                if (!fam.IsStyleAvailable(System.Drawing.FontStyle.Regular))
-                                {
-                                    continue;
-                                }
-
-                                string familyName = fam.Name;
-                                if (!seenFamilies.Add(familyName))
-                                {
-                                    continue;
-                                }
-
-                                string displayName = familyName;
-                                string escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
-                                entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
-
-                                try { FontNameById[index] = normalized; } catch { FontNameById.Add(index, normalized); }
-                                index++;
+                                // ignore font load issues and continue
                             }
-                            }
-                        }
-                        catch
-                        {
-                            // ignore font load issues and continue
                         }
                     }
-                }
             }
             catch
             {
@@ -301,26 +301,26 @@ namespace xsoverlay_font_changer.Patches.Setting
                         {
                             using (System.Drawing.Text.PrivateFontCollection pfc = new())
                             {
-                            pfc.AddFontFile(normalized);
+                                pfc.AddFontFile(normalized);
 
-                            foreach (System.Drawing.FontFamily fam in pfc.Families)
-                            {
-                                if (!fam.IsStyleAvailable(System.Drawing.FontStyle.Regular))
-                                    continue;
-
-                                string familyName = fam.Name;
-                                if (!seenFamilies.Add(familyName))
+                                foreach (System.Drawing.FontFamily fam in pfc.Families)
                                 {
-                                    continue;
+                                    if (!fam.IsStyleAvailable(System.Drawing.FontStyle.Regular))
+                                        continue;
+
+                                    string familyName = fam.Name;
+                                    if (!seenFamilies.Add(familyName))
+                                    {
+                                        continue;
+                                    }
+
+                                    string displayName = familyName;
+                                    string escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
+                                    entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
+
+                                    try { FontNameById[index] = normalized; } catch { FontNameById.Add(index, normalized); }
+                                    index++;
                                 }
-
-                                string displayName = familyName;
-                                string escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
-                                entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
-
-                                try { FontNameById[index] = normalized; } catch { FontNameById.Add(index, normalized); }
-                                index++;
-                            }
                             }
                         }
                         catch
@@ -365,14 +365,14 @@ namespace xsoverlay_font_changer.Patches.Setting
             {
                 using (System.Drawing.Text.PrivateFontCollection pfc = new())
                 {
-                pfc.AddFontFile(filePath);
-                System.Drawing.FontFamily[] fams = pfc.Families;
-                if (fams != null && fams.Length > 0)
-                {
-                    string name = fams[0].Name;
-                    if (!string.IsNullOrWhiteSpace(name))
-                        return name;
-                }
+                    pfc.AddFontFile(filePath);
+                    System.Drawing.FontFamily[] fams = pfc.Families;
+                    if (fams != null && fams.Length > 0)
+                    {
+                        string name = fams[0].Name;
+                        if (!string.IsNullOrWhiteSpace(name))
+                            return name;
+                    }
                 }
             }
             catch
