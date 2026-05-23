@@ -33,7 +33,7 @@ namespace xsoverlay_font_changer.Patches
                         RestoreFontPatch(KeyboardOverlay);
             };
 
-            XConfig.KeyboardName.SettingChanged += (_, _) =>
+            XConfig.KeyboardPath.SettingChanged += (_, _) =>
             {
                 if (IsKeyboardExist)
                     if (IsEnabled())
@@ -89,9 +89,9 @@ namespace xsoverlay_font_changer.Patches
 
         private static void ApplyFontPatch(Overlay_Manager instance)
         {
-            if (File.Exists(XConfig.KeyboardName.Value))
+            if (File.Exists(XConfig.KeyboardPath.Value))
             {
-                Font font = new(XConfig.KeyboardName.Value);
+                Font font = new(XConfig.KeyboardPath.Value);
                 TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font);
 
                 // Default keyboard
@@ -115,7 +115,7 @@ namespace xsoverlay_font_changer.Patches
                 }
             }
             else
-                Plugin.Logger.LogError($"Keyboard - \"{XConfig.KeyboardName.Value}\" does not exist.");
+                Plugin.Logger.LogError($"Keyboard - \"{XConfig.KeyboardPath.Value}\" does not exist.");
         }
 
         private static void RestoreFontPatch(Overlay_Manager instance)

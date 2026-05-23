@@ -15,6 +15,7 @@ namespace xsoverlay_font_changer.Patches.Setting
     internal class SettingPage
     {
         private static readonly Dictionary<int, string> FontNameById = [];
+        private static readonly Dictionary<int, string> FontPathById = [];
         private static string FontArrayJS;
 
         [HarmonyPatch(typeof(UpdateDateTime), "Awake")]
@@ -44,7 +45,7 @@ namespace xsoverlay_font_changer.Patches.Setting
             {
                 // Keyboard
                 ["XSOverlayFontChanger.KeyboardEnable"] = XConfig.KeyboardEnable.Value,
-                ["XSOverlayFontChanger.KeyboardName"] = XConfig.KeyboardName.Value,
+                ["XSOverlayFontChanger.KeyboardPath"] = XConfig.KeyboardPath.Value,
                 ["XSOverlayFontChanger.KeyboardScale"] = XConfig.KeyboardScale.Value,
 
                 // Notification
@@ -91,8 +92,8 @@ namespace xsoverlay_font_changer.Patches.Setting
                 case "XSOverlayFontChanger.KeyboardEnable":
                     XConfig.KeyboardEnable.Value = bool.Parse(value);
                     break;
-                case "XSOverlayFontChanger.KeyboardName":
-                    XConfig.KeyboardName.Value = FontNameById[int.Parse(value)];
+                case "XSOverlayFontChanger.KeyboardPath":
+                    XConfig.KeyboardPath.Value = FontPathById[int.Parse(value)];
                     break;
                 case "XSOverlayFontChanger.KeyboardScale":
                     XConfig.KeyboardScale.Value = float.Parse(value);
@@ -181,7 +182,7 @@ namespace xsoverlay_font_changer.Patches.Setting
             using StreamReader reader = new(stream);
             string jsContent = reader.ReadToEnd();
 
-            jsContent = jsContent.Replace("<<KeyboardFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.KeyboardName.Value)));
+            jsContent = jsContent.Replace("<<KeyboardFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.KeyboardPath.Value)));
             jsContent = jsContent.Replace("<<NotificationFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.NotificationName.Value)));
             jsContent = jsContent.Replace("<<SettingsFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.SettingsName.Value)));
             jsContent = jsContent.Replace("<<TooltipFont>>", FormatKeyboardFontHtml(GetFontDisplayName(XConfig.TooltipName.Value)));
@@ -266,6 +267,8 @@ namespace xsoverlay_font_changer.Patches.Setting
                                         entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
 
                                         try { FontNameById[index] = familyName; } catch { FontNameById.Add(index, familyName); }
+                                        try { FontPathById[index] = normalized; } catch { FontPathById.Add(index, normalized); }
+
                                         index++;
                                     }
                                 }
@@ -318,7 +321,9 @@ namespace xsoverlay_font_changer.Patches.Setting
                                     string escaped = displayName.Replace("\\", "\\\\").Replace("'", "\\'");
                                     entries.Add($"'{FormatKeyboardFontHtml(escaped)}'");
 
-                                    try { FontNameById[index] = normalized; } catch { FontNameById.Add(index, normalized); }
+                                    try { FontNameById[index] = familyName; } catch { FontNameById.Add(index, familyName); }
+                                    try { FontPathById[index] = normalized; } catch { FontPathById.Add(index, normalized); }
+
                                     index++;
                                 }
                             }

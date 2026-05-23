@@ -17,7 +17,7 @@ function InjectKBOSCTab() {
             {
                 name: 'Keyboard', priority: 1, settings: [
                     { type: Ui.ComponentType.Toggle, id: 'XSOverlayFontChanger.KeyboardEnable', name: 'Enable', description: 'Apply Keyboard font modification.', default: true },
-                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.KeyboardName', name: 'Font', description: 'Keyboard font name.', default: '<<KeyboardFont>>', options: [<<FontList>>] },
+                    { type: Ui.ComponentType.Dropdown, id: 'XSOverlayFontChanger.KeyboardPath', name: 'Font', description: 'Keyboard font name.', default: '<<KeyboardFont>>', options: [<<FontList>>] },
                     { type: Ui.ComponentType.Slider, id: 'XSOverlayFontChanger.KeyboardScale', name: 'Scale', description: 'Keyboard font scale.', default: 0.0, options: [-5.0, 5.0, 0.5], unit: '%' },
                 ]
             },

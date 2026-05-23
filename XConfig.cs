@@ -5,7 +5,7 @@ namespace xsoverlay_font_changer
     internal class XConfig
     {
         public static ConfigEntry<bool> KeyboardEnable;
-        public static ConfigEntry<string> KeyboardName;
+        public static ConfigEntry<string> KeyboardPath;
         public static ConfigEntry<float> KeyboardScale;
 
         public static ConfigEntry<bool> NotificationEnable;
@@ -33,7 +33,7 @@ namespace xsoverlay_font_changer
         public static void AllConfig(ConfigFile cfg)
         {
             KeyboardEnable = cfg.Bind("Keyboard", "Enable", true, "Apply Keyboard font modification.");
-            KeyboardName = cfg.Bind("Keyboard", "Name", "Segoe UI", "Keyboard font name.");
+            KeyboardPath = cfg.Bind("Keyboard", "Name", "C:/WINDOWS/Fonts/segoeui.ttf", "Keyboard font name.");
             KeyboardScale = cfg.Bind("Keyboard", "Scale", 0f, "Keyboard font scale.");
 
             NotificationEnable = cfg.Bind("Notification", "Enable", true, "Apply Notification font modification.");
