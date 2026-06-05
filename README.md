@@ -18,15 +18,14 @@
 <img src="./img/screenshot_1.jpeg" width="800"> <img src="./img/screenshot_2.jpeg" width="400"> <img src="./img/screenshot_3.jpeg" width="400">
 
 ## ⛏️ Installation
-1. [Follow the BepInEx install guide](https://github.com/BepInEx/BepInEx/wiki/Installation) (BepInEx_win_x64) to [Steam]/steamapps/common/[XSOverlay].
-2. Download the plugin ZIP from [Releases](https://github.com/chaixshot/xsoverlay-font-changer/releases/latest)
-3. Extract the ZIP file and move folders inside ``xsoverlay-font-changer`` to ``[XSOverlay]/BepInEx``
-4. You can change your lovely font in ``[XSOverlay]/BepInEx/config/xsoverlay.font.changer.cfg`` file with Notepad
-5. Edit ``[XSOverlay]/BepInEx/config/BepInEx.cfg`` file with Notepad and change **HideManagerGameObject = true**
-6. Start XSOverlay and enjoy!
+1. Download the plugin ZIP from [Releases](https://github.com/chaixshot/xsoverlay-font-changer/releases/latest)
+2. Extract the ZIP and drop the files and folders inside ``xsoverlay-font-changer`` to ``[Steam]/steamapps/common/[XSOverlay]``
+3. Launch XSOverlay.
+4. Change the font from the XSOverlay settings menu in the Font Changer tab.
+5. Enjoy!
 
 ## ⛔ Disable
-Go to ``[Steam]/steamapps/common/[XSOverlay]/BepInEx/plugins/``, remove **xsoverlay_font_changer.dll**
+Go to ``[Steam]/steamapps/common/[XSOverlay]/BepInEx/plugins/`` and remove ``xsoverlay_font_changer.dll``
 
 ## 🗑️ Uninstall
-Go to ``[Steam]/steamapps/common/[XSOverlay]``, remove **BepInEx**, **doorstop_config.ini**, **winhttp.dll**
+Go to ``[Steam]/steamapps/common/[XSOverlay]`` and remove ``BepInEx``, ``doorstop_config.ini``, ``winhttp.dll``
