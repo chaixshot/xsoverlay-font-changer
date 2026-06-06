@@ -21,11 +21,22 @@
 1. Download the plugin ZIP from [Releases](https://github.com/chaixshot/xsoverlay-font-changer/releases/latest)
 2. Extract the ZIP and drop the files and folders inside ``xsoverlay-font-changer`` to ``[Steam]/steamapps/common/[XSOverlay]``
 3. Launch XSOverlay.
-4. Change the font from the XSOverlay settings menu in the Font Changer tab.
-5. Enjoy!
+4. Enjoy!
+
+## ⚙️ Configuration
+
+This mod injects a custom settings page directly into the XSOverlay UI.
+
+1. Open the XSOverlay **Settings** menu.
+2. Click on the **Font Changer** (T icon) tab in the sidebar.
+3. Adjust settings in real-time.
 
 ## ⛔ Disable
 Go to ``[Steam]/steamapps/common/[XSOverlay]/BepInEx/plugins/`` and remove ``xsoverlay_font_changer.dll``
 
 ## 🗑️ Uninstall
 Go to ``[Steam]/steamapps/common/[XSOverlay]`` and remove ``BepInEx``, ``doorstop_config.ini``, ``winhttp.dll``
+
+## Credits
+- **[XSOverlay](https://store.steampowered.com/app/1173510/XSOverlay/):** The original application by XiS.
+- **[BepInEx](https://github.com/bepinex/bepinex):** For the plugin framework.
