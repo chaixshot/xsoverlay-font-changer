@@ -198,9 +198,14 @@ namespace xsoverlay_font_changer.Patches.Setting
             {
                 if (args.Type == ProgressChangeType.Finished)
                 {
-                    wv._webView.WebView.ExecuteJavaScript(jsCode, (result) =>
+                    Task.Run(async () =>
                     {
-                        //Plugin.Logger.LogError($"[{wv.UserInterfaceSelection}] {result}");
+                        await Task.Delay(1000);
+
+                        wv._webView.WebView.ExecuteJavaScript(jsCode, (result) =>
+                        {
+                            //Plugin.Logger.LogError($"[{wv.UserInterfaceSelection}] {result}");
+                        });
                     });
                 }
             };

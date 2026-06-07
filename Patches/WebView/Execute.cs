@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vuplex.WebView;
 using XSOverlay.WebApp;
 
@@ -15,10 +16,15 @@ namespace xsoverlay_font_changer.Patches.WebView
             {
                 if (args.Type == ProgressChangeType.Finished)
                 {
-                    Plugin.Logger.LogInfo($"[{wv.UserInterfaceSelection}] Injecting \"{wv._webView.WebView.Url}\" CSS...");
+                    Task.Run(async () =>
+                    {
+                        await Task.Delay(1000);
 
-                    wv._webView.WebView.LoadProgressChanged -= handler;
-                    ApplyHtmlStyle(wv, fontName, fontScale, cssClass);
+                        Plugin.Logger.LogInfo($"[{wv.UserInterfaceSelection}] Injecting \"{wv._webView.WebView.Url}\" CSS...");
+
+                        wv._webView.WebView.LoadProgressChanged -= handler;
+                        ApplyHtmlStyle(wv, fontName, fontScale, cssClass);
+                    });
                 }
             }
 
