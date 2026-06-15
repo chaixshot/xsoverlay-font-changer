@@ -2,7 +2,7 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using System.Threading.Tasks;
-using xsoverlay_font_changer.Patches.WebView;
+using xsoverlay_font_changer.Utils;
 
 namespace xsoverlay_font_changer;
 
@@ -21,8 +21,10 @@ public class Plugin : BaseUnityPlugin
         Logger = base.Logger;
         XConfig.AllConfig(Config);
 
+        harmony.PatchAll(typeof(GlobalizeJsModule));
+
         harmony.PatchAll(typeof(Patches.PatchKeyboard));
-        harmony.PatchAll(typeof(PatchWebView));
+        harmony.PatchAll(typeof(Patches.WebView.PatchWebView));
         harmony.PatchAll(typeof(Patches.Setting.SettingPage));
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
