@@ -33,7 +33,10 @@ public class Plugin : BaseUnityPlugin
     private void Start()
     {
         if (XConfig.UpdateNotification.Value)
-            Task.Run(Utils.Update.CheckForUpdate);
+            Task.Run(() =>
+            {
+                Utils.Update.CheckForUpdate(false);
+            });
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is started!");
     }

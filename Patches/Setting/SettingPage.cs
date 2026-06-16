@@ -162,7 +162,10 @@ namespace xsoverlay_font_changer.Patches.Setting
 
                 // About
                 case "XSOverlayFontChanger.CheckForUpdate":
-                    Task.Run(Utils.Update.CheckForUpdate);
+                    Task.Run(() =>
+                    {
+                        Utils.Update.CheckForUpdate(true);
+                    });
                     break;
                 case "XSOverlayFontChanger.OpenGitHub":
                     Task.Run(Utils.Update.OpenGitHubPage);
