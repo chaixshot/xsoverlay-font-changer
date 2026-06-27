@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
   # XSOverlay Font Changer
   ### Change the [XSOverlay](https://store.steampowered.com/app/1173510/XSOverlay/) font to your own lovely one
@@ -36,6 +36,11 @@ Go to ``[Steam]/steamapps/common/[XSOverlay]/BepInEx/plugins/`` and remove ``xso
 
 ## 🗑️ Uninstall
 Go to ``[Steam]/steamapps/common/[XSOverlay]`` and remove ``BepInEx``, ``doorstop_config.ini``, ``winhttp.dll``
+
+## Other Mods
+- [Xsoverlay Tweak](https://github.com/chaixshot/xsoverlay-tweak): Quality-of-life XSOverlay improvements, including frame rate override, pointer laser, and issue fixes.
+- [Xsoverlay Keyboard OSC](https://github.com/nyakowint/xsoverlay-keyboard-osc): Make XSOverlay a usable chatbox input for VRChat through OSC.
+
 
 ## Credits
 - **[XSOverlay](https://store.steampowered.com/app/1173510/XSOverlay/):** The original application by XiS.
