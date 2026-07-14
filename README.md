@@ -22,6 +22,14 @@
 2. Extract the ZIP and drop the files and folders inside ``xsoverlay-font-changer`` to ``[Steam]/steamapps/common/[XSOverlay]``
 3. Launch XSOverlay.
 4. Enjoy!
+> The release ZIP file contains files from the [BepInEx Installation](https://github.com/BepInEx/BepInEx/wiki/Installation)
+
+## 🔨 Build From Source
+1. Download the repo from [GitHub](https://github.com/chaixshot/xsoverlay-font-changer/archive/refs/heads/main.zip)
+2. Open ***.sln** via [Visual Studio 2026](https://visualstudio.microsoft.com/downloads/)
+3. Download libraries from [BepInEx Installation](https://github.com/BepInEx/BepInEx/wiki/Installation) - **BepInEx_win_x64_*.zip**
+4. Change project **Dependency Assenbiles** path to `./BepInEx/core` and `./XSOverlay/XSOverlay_Data/Managed`
+5. Build Solution (Ctrl+Shift+B)
 
 ## ⚙️ Configuration
 
