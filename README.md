@@ -23,14 +23,7 @@
 3. Launch XSOverlay.
 4. Enjoy!
 > The release ZIP file contains files from the [BepInEx Installation](https://github.com/BepInEx/BepInEx/wiki/Installation)
-
-## 🔨 Build From Source
-1. Download the repo from [GitHub](https://github.com/chaixshot/xsoverlay-font-changer/archive/refs/heads/main.zip)
-2. Open ***.sln** via [Visual Studio 2026](https://visualstudio.microsoft.com/downloads/)
-3. Download libraries from [BepInEx Installation](https://github.com/BepInEx/BepInEx/wiki/Installation) - **BepInEx_win_x64_*.zip**
-4. Change project **Dependency Assenbiles** path to `./BepInEx/core` and `./XSOverlay/XSOverlay_Data/Managed`
-5. Build Solution (Ctrl+Shift+B)
-
+> 
 ## ⚙️ Configuration
 
 This mod injects a custom settings page directly into the XSOverlay UI.
@@ -45,10 +38,16 @@ Go to ``[Steam]/steamapps/common/[XSOverlay]/BepInEx/plugins/`` and remove ``xso
 ## 🗑️ Uninstall
 Go to ``[Steam]/steamapps/common/[XSOverlay]`` and remove ``BepInEx``, ``doorstop_config.ini``, ``winhttp.dll``
 
+## 🔨 Build From Source
+1. Download the repo from [GitHub](https://github.com/chaixshot/xsoverlay-font-changer/archive/refs/heads/main.zip)
+2. Open ***.sln** via [Visual Studio 2026](https://visualstudio.microsoft.com/downloads/)
+3. Download libraries from [BepInEx Installation](https://github.com/BepInEx/BepInEx/wiki/Installation) - **BepInEx_win_x64_*.zip**
+4. Change project **Dependency Assenbiles** path to `./BepInEx/core` and `./XSOverlay/XSOverlay_Data/Managed`
+5. Build Solution (Ctrl+Shift+B)
+
 ## Other Mods
 - [Xsoverlay Tweak](https://github.com/chaixshot/xsoverlay-tweak): Quality-of-life XSOverlay improvements, including frame rate override, pointer laser, and issue fixes.
 - [Xsoverlay Keyboard OSC](https://github.com/nyakowint/xsoverlay-keyboard-osc): Make XSOverlay a usable chatbox input for VRChat through OSC.
-
 
 ## Credits
 - **[XSOverlay](https://store.steampowered.com/app/1173510/XSOverlay/):** The original application by XiS.
