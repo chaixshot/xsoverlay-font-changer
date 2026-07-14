@@ -84,7 +84,7 @@ namespace xsoverlay_font_changer.Patches.WebView
             }
 
             // Toggle enabling/disabling font style
-            enable.SettingChanged += (s, e) =>
+            enable.SettingChanged += (sender, args) =>
             {
                 if (enable.Value)
                 {
@@ -103,7 +103,7 @@ namespace xsoverlay_font_changer.Patches.WebView
             };
 
             // Change font style
-            path.SettingChanged += (s, e) =>
+            path.SettingChanged += (sender, args) =>
             {
                 if (enable.Value)
                 {
@@ -116,7 +116,7 @@ namespace xsoverlay_font_changer.Patches.WebView
 
             //Change font scale with debouncing to prevent excessive updates
             Coroutine debounceCoroutine = null;
-            scale.SettingChanged += (s, e) =>
+            scale.SettingChanged += (sender, args) =>
             {
                 if (enable.Value)
                 {
