@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using UnityEngine;
+using Valve.Newtonsoft.Json;
 using Vuplex.WebView;
 using XSOverlay;
 using XSOverlay.WebApp;
@@ -78,7 +78,7 @@ namespace xsoverlay_font_changer.Patches.Setting
                 ["XSOverlayFontChanger.UpdateNotification"] = XConfig.UpdateNotification.Value,
             };
 
-            string data = JsonUtility.ToJson(settings);
+            string data = JsonConvert.SerializeObject(settings);
             ServerClientBridge.Instance.Api.SendMessage("UpdateSettings", data, null, sender);
         }
 
