@@ -1,7 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Bootstrap;
 using HarmonyLib;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -11,14 +10,13 @@ using XSOverlay;
 
 namespace xsoverlay_font_changer.Patches
 {
-    [HarmonyPatch(typeof(Overlay_Manager))]
     internal class PatchKeyboard
     {
         private static bool IsKeyboardExist = false;
         private static Overlay_Manager KeyboardOverlay;
         private static readonly Dictionary<int, (TMP_FontAsset fontAsset, float fontSize)> Original = [];
 
-        [HarmonyPatch("Awake")]
+        [HarmonyPatch(typeof(Overlay_Manager), "Awake")]
         [HarmonyPostfix]
         public static void Awake()
         {
@@ -39,26 +37,9 @@ namespace xsoverlay_font_changer.Patches
                     if (IsEnabled())
                         ApplyFontPatch(KeyboardOverlay);
             };
-
-            Coroutine debounceCoroutine = null;
-            XConfig.KeyboardScale.SettingChanged += (_, _) =>
-            {
-                if (IsKeyboardExist && IsEnabled())
-                {
-                    if (debounceCoroutine != null) Plugin.Instance.StopCoroutine(debounceCoroutine);
-                    debounceCoroutine = Plugin.Instance.StartCoroutine(ApplyWithDelay());
-                }
-
-                IEnumerator ApplyWithDelay()
-                {
-                    yield return new WaitForSecondsRealtime(0.5f);
-                    ApplyFontPatch(KeyboardOverlay);
-                    debounceCoroutine = null;
-                }
-            };
         }
 
-        [HarmonyPatch(nameof(Overlay_Manager.EnableKeyboard))]
+        [HarmonyPatch(typeof(Overlay_Manager), nameof(Overlay_Manager.EnableKeyboard))]
         [HarmonyPostfix]
         public static void PatchFont(Overlay_Manager __instance)
         {
@@ -85,6 +66,21 @@ namespace xsoverlay_font_changer.Patches
 
                 IsKeyboardExist = true;
             }
+        }
+
+        [HarmonyPatch(typeof(KeyboardKey), "SetupKeyState")]
+        [HarmonyPostfix]
+        public static void ApplyKeyFontSize(TMP_Text ___MainText)
+        {
+            float fontSize = ___MainText.fontSize;
+
+            XConfig.KeyboardScale.SettingChanged += (_, _) =>
+            {
+                if (IsKeyboardExist && IsEnabled())
+                    ___MainText.fontSize = fontSize + XConfig.KeyboardScale.Value;
+            };
+
+            ___MainText.fontSize = fontSize + XConfig.KeyboardScale.Value;
         }
 
         private static void ApplyFontPatch(Overlay_Manager instance)
